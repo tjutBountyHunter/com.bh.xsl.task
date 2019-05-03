@@ -8,7 +8,6 @@
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 
-
     <!-- 消费者 应用信息 -->
     <dubbo:application name="taskCenter"/>
     <!-- 注册中心服务地址 -->
