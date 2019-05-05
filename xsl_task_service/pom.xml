@@ -16,6 +16,11 @@
             <artifactId>xsl_task_dao</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.bh.xsl.user</groupId>
+            <artifactId>xsl_user_export</artifactId>
+        </dependency>
+
         <!-- dubbo相关 -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -44,6 +49,10 @@
                     <groupId>log4j</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
         </dependency>
         <!--mq相关-->
         <dependency>

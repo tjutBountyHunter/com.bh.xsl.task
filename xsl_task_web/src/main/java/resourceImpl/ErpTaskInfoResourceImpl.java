@@ -8,14 +8,21 @@ import mapper.XslTaskMapper;
 import mapper.XslTaskTagMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import resource.ErpTaskInfoResource;
+import resource.UserInfoResouce;
+import util.DateUtils;
 import vo.ErpTaskInfoReqVo;
 import vo.PageObject;
+import vo.TaskInfoReqVo;
+import vo.XslResult;
 import xsl.pojo.XslTask;
 import xsl.pojo.XslTaskExample;
+import xsl.pojo.XslUser;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,6 +38,8 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 	private XslTaskTagMapper xslTaskTagMapper;
 	@Resource
 	private XslMasterMapper xslMasterMapper;
+	@Resource
+	private UserInfoResouce userInfoResouce;
 
 
 	@Override
@@ -54,6 +63,21 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 			PageHelper.startPage(page,rows);//进行分页
 			List<XslTask> list = xslTaskMapper.selectByExample(example);
 
+			List<TaskInfoReqVo> taskInfoReqVos = new ArrayList<>();
+			for (XslTask xslTask : list){
+				TaskInfoReqVo taskInfoReqVo = new TaskInfoReqVo();
+				BeanUtils.copyProperties(xslTask, taskInfoReqVo);
+				taskInfoReqVo.setCreatedate(DateUtils.getDateTimeToString(xslTask.getCreatedate()));
+				taskInfoReqVo.setUpdatedate(DateUtils.getDateTimeToString(xslTask.getUpdatedate()));
+				taskInfoReqVo.setDeadline(DateUtils.getDateTimeToString(xslTask.getDeadline()));
+
+				String masterId = xslTask.getSendid();
+				XslUser userInfo = (XslUser)userInfoResouce.getUserInfoMasterId(masterId).getData();
+				taskInfoReqVo.setPhone(userInfo.getPhone());
+				taskInfoReqVos.add(taskInfoReqVo);
+			}
+
+			object.setData(taskInfoReqVos);
 			PageInfo<XslTask> info = new PageInfo<XslTask>(list);//得到分页的信息
 			//得到分页的总数量
 			object.setTotal(info.getTotal());
