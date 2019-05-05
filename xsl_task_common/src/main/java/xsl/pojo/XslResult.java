@@ -1,4 +1,4 @@
-package pojo;
+package xsl.pojo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

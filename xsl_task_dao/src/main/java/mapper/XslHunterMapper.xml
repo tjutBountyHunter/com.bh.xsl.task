@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.XslHunterMapper">
+  <resultMap id="BaseResultMap" type="xsl.pojo.XslHunter">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="hunterId" jdbcType="VARCHAR" property="hunterid" />
+    <result column="userId" jdbcType="VARCHAR" property="userid" />
+    <result column="level" jdbcType="SMALLINT" property="level" />
+    <result column="empirical" jdbcType="INTEGER" property="empirical" />
+    <result column="taskAccNum" jdbcType="INTEGER" property="taskaccnum" />
+    <result column="taskFailNum" jdbcType="INTEGER" property="taskfailnum" />
+    <result column="credit" jdbcType="SMALLINT" property="credit" />
+    <result column="descr" jdbcType="VARCHAR" property="descr" />
+    <result column="lastTime" jdbcType="TIMESTAMP" property="lasttime" />
+    <result column="state" jdbcType="BIT" property="state" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, hunterId, userId, level, empirical, taskAccNum, taskFailNum, credit, descr, lastTime, 
+    state
+  </sql>
+  <select id="selectByExample" parameterType="xsl.pojo.XslHunterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xsl_hunter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xsl_hunter
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xsl_hunter
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="xsl.pojo.XslHunterExample">
+    delete from xsl_hunter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="xsl.pojo.XslHunter">
+    insert into xsl_hunter (id, hunterId, userId, 
+      level, empirical, taskAccNum, 
+      taskFailNum, credit, descr, 
+      lastTime, state)
+    values (#{id,jdbcType=INTEGER}, #{hunterid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{level,jdbcType=SMALLINT}, #{empirical,jdbcType=INTEGER}, #{taskaccnum,jdbcType=INTEGER}, 
+      #{taskfailnum,jdbcType=INTEGER}, #{credit,jdbcType=SMALLINT}, #{descr,jdbcType=VARCHAR}, 
+      #{lasttime,jdbcType=TIMESTAMP}, #{state,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="xsl.pojo.XslHunter">
+    insert into xsl_hunter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="hunterid != null">
+        hunterId,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="empirical != null">
+        empirical,
+      </if>
+      <if test="taskaccnum != null">
+        taskAccNum,
+      </if>
+      <if test="taskfailnum != null">
+        taskFailNum,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="descr != null">
+        descr,
+      </if>
+      <if test="lasttime != null">
+        lastTime,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="hunterid != null">
+        #{hunterid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="empirical != null">
+        #{empirical,jdbcType=INTEGER},
+      </if>
+      <if test="taskaccnum != null">
+        #{taskaccnum,jdbcType=INTEGER},
+      </if>
+      <if test="taskfailnum != null">
+        #{taskfailnum,jdbcType=INTEGER},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=SMALLINT},
+      </if>
+      <if test="descr != null">
+        #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null">
+        #{lasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="xsl.pojo.XslHunterExample" resultType="java.lang.Long">
+    select count(*) from xsl_hunter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xsl_hunter
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.hunterid != null">
+        hunterId = #{record.hunterid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=SMALLINT},
+      </if>
+      <if test="record.empirical != null">
+        empirical = #{record.empirical,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskaccnum != null">
+        taskAccNum = #{record.taskaccnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskfailnum != null">
+        taskFailNum = #{record.taskfailnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.credit != null">
+        credit = #{record.credit,jdbcType=SMALLINT},
+      </if>
+      <if test="record.descr != null">
+        descr = #{record.descr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lasttime != null">
+        lastTime = #{record.lasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xsl_hunter
+    set id = #{record.id,jdbcType=INTEGER},
+      hunterId = #{record.hunterid,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=SMALLINT},
+      empirical = #{record.empirical,jdbcType=INTEGER},
+      taskAccNum = #{record.taskaccnum,jdbcType=INTEGER},
+      taskFailNum = #{record.taskfailnum,jdbcType=INTEGER},
+      credit = #{record.credit,jdbcType=SMALLINT},
+      descr = #{record.descr,jdbcType=VARCHAR},
+      lastTime = #{record.lasttime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="xsl.pojo.XslHunter">
+    update xsl_hunter
+    <set>
+      <if test="hunterid != null">
+        hunterId = #{hunterid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="empirical != null">
+        empirical = #{empirical,jdbcType=INTEGER},
+      </if>
+      <if test="taskaccnum != null">
+        taskAccNum = #{taskaccnum,jdbcType=INTEGER},
+      </if>
+      <if test="taskfailnum != null">
+        taskFailNum = #{taskfailnum,jdbcType=INTEGER},
+      </if>
+      <if test="credit != null">
+        credit = #{credit,jdbcType=SMALLINT},
+      </if>
+      <if test="descr != null">
+        descr = #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null">
+        lastTime = #{lasttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xsl.pojo.XslHunter">
+    update xsl_hunter
+    set hunterId = #{hunterid,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=VARCHAR},
+      level = #{level,jdbcType=SMALLINT},
+      empirical = #{empirical,jdbcType=INTEGER},
+      taskAccNum = #{taskaccnum,jdbcType=INTEGER},
+      taskFailNum = #{taskfailnum,jdbcType=INTEGER},
+      credit = #{credit,jdbcType=SMALLINT},
+      descr = #{descr,jdbcType=VARCHAR},
+      lastTime = #{lasttime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByHunterIdSelective" parameterType="xsl.pojo.XslHunter" >
+    update xsl_hunter
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="empirical != null" >
+        empirical = #{empirical,jdbcType=INTEGER},
+      </if>
+      <if test="taskaccnum != null" >
+        taskAccNum = #{taskaccnum,jdbcType=INTEGER},
+      </if>
+      <if test="taskfailnum != null" >
+        taskFailNum = #{taskfailnum,jdbcType=INTEGER},
+      </if>
+      <if test="credit != null" >
+        credit = #{credit,jdbcType=SMALLINT},
+      </if>
+      <if test="descr != null" >
+        descr = #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null" >
+        lastTime = #{lasttime,jdbcType=DATE},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=BIT},
+      </if>
+    </set>
+    where hunterId = #{hunterid,jdbcType=VARCHAR}
+  </update>
+</mapper>

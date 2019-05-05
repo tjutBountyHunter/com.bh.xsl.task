@@ -14,5 +14,9 @@
     <dubbo:registry protocol="zookeeper" address="47.93.230.61:2181"/>
     <dubbo:protocol  name="dubbo" port="-1"/>
 
+    <bean id="erpTaskInfoResource" class="resourceImpl.ErpTaskInfoResourceImpl"/>
+    <dubbo:service interface="resource.ErpTaskInfoResource" ref="erpTaskInfoResource" timeout="600000"/>
 
+    <bean id="taskInfoResource" class="resourceImpl.TaskInfoResourceImpl"/>
+    <dubbo:service interface="resource.TaskInfoResource" ref="taskInfoResource" timeout="600000"/>
 </beans>
