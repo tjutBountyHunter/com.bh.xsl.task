@@ -13,13 +13,9 @@ import org.springframework.stereotype.Controller;
 import resource.ErpTaskInfoResource;
 import resource.UserInfoResouce;
 import util.DateUtils;
-import vo.ErpTaskInfoReqVo;
-import vo.PageObject;
-import vo.TaskInfoReqVo;
-import vo.XslResult;
+import vo.*;
 import xsl.pojo.XslTask;
 import xsl.pojo.XslTaskExample;
-import xsl.pojo.XslUser;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -72,8 +68,8 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 				taskInfoReqVo.setDeadline(DateUtils.getDateTimeToString(xslTask.getDeadline()));
 
 				String masterId = xslTask.getSendid();
-				XslUser userInfo = (XslUser)userInfoResouce.getUserInfoMasterId(masterId).getData();
-				taskInfoReqVo.setPhone(userInfo.getPhone());
+				XslUser xslUser = userInfoResouce.getUserInfoMasterId(masterId);
+				taskInfoReqVo.setPhone(xslUser.getPhone());
 				taskInfoReqVos.add(taskInfoReqVo);
 			}
 

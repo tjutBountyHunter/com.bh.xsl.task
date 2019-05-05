@@ -313,6 +313,12 @@
                 <version>4.0.1</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.32.Final</version>
+            </dependency>
+
             <!--mq相关-->
             <dependency>
                 <groupId>org.apache.activemq</groupId>

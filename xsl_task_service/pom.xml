@@ -54,6 +54,10 @@
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
         <!--mq相关-->
         <dependency>
             <groupId>org.apache.activemq</groupId>
