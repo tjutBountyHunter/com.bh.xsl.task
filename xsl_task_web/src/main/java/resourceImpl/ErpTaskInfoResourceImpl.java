@@ -42,19 +42,19 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 	public PageObject SelectTaskAll(ErpTaskInfoReqVo erpTaskInfoReqVo) {
 		 Integer page = erpTaskInfoReqVo.getPage();
 		 Integer rows = erpTaskInfoReqVo.getRows();
-		 Integer key = erpTaskInfoReqVo.getKey();
-		 Byte key1 = erpTaskInfoReqVo.getKey1();
+		 Integer id = erpTaskInfoReqVo.getId();
+		 Byte state = erpTaskInfoReqVo.getState();
 
 		PageObject object = new PageObject();
 		try{
 			XslTaskExample example = new XslTaskExample();
 			XslTaskExample.Criteria criteria = example.createCriteria();
 			//进行判断防止程序崩溃
-			if( key != null ){//任务ID
-				criteria.andIdEqualTo(key);
+			if( id != null ){//任务ID
+				criteria.andIdEqualTo(id);
 			}
-			if( key1 != null){//任务状态
-				criteria.andStateEqualTo(key1);
+			if(state != null){//任务状态
+				criteria.andStateEqualTo(state);
 			}
 			PageHelper.startPage(page,rows);//进行分页
 			List<XslTask> list = xslTaskMapper.selectByExample(example);
@@ -82,5 +82,25 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 		}finally {
 			return object;
 		}
+	}
+
+	@Override
+	public boolean InsertXslTask(List<Task> xslTasks) {
+		return false;
+	}
+
+	@Override
+	public boolean UpdateXslTask(List<Task> xslTasks) {
+		return false;
+	}
+
+	@Override
+	public boolean deleteXslTask(List<Task> xslTasks) {
+		return false;
+	}
+
+	@Override
+	public boolean delXslTask(List<Task> xslTask) {
+		return false;
 	}
 }

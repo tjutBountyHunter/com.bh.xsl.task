@@ -3,8 +3,8 @@ package vo;
 public class ErpTaskInfoReqVo extends ReqBaseVo{
 	private Integer page;
 	private Integer rows;
-	private Integer key;
-	private Byte key1;
+	private Integer id;
+	private Byte State;
 
 	public Integer getPage() {
 		return page;
@@ -22,19 +22,19 @@ public class ErpTaskInfoReqVo extends ReqBaseVo{
 		this.rows = rows;
 	}
 
-	public Integer getKey() {
-		return key;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setKey(Integer key) {
-		this.key = key;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public Byte getKey1() {
-		return key1;
+	public Byte getState() {
+		return State;
 	}
 
-	public void setKey1(Byte key1) {
-		this.key1 = key1;
+	public void setState(Byte state) {
+		State = state;
 	}
 }
