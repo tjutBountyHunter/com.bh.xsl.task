@@ -346,7 +346,11 @@
             <!--        </dependency>-->
             <!--        &lt;!&ndash;阿里&ndash;&gt;-->
 
-
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.2</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
