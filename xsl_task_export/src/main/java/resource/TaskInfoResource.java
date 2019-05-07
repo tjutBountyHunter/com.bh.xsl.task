@@ -23,11 +23,4 @@ public interface TaskInfoResource {
 	 */
 	XslResult taskInfo(String taskId);
 
-	/**
-	 * 根据任务id取得任务
-	 * @return
-	 */
-
-
-
 }
