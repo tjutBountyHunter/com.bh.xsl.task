@@ -14,7 +14,17 @@
 
 </project>
 
+<!--发包时更换为该配置-->
+<!--<modelVersion>4.0.0</modelVersion>-->
 
 <!--<groupId>com.bh.xsl.task</groupId>-->
 <!--<artifactId>xsl_task_export</artifactId>-->
 <!--<version>1.0</version>-->
+
+<!--<distributionManagement>-->
+<!--<repository>-->
+    <!--<id>release_user</id>-->
+    <!--<name>Release Deploy</name>-->
+    <!--<url>http://39.96.195.196:8081/repository/maven-releases/</url>-->
+<!--</repository>-->
+<!--</distributionManagement>-->

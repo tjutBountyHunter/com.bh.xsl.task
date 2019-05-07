@@ -3,6 +3,7 @@ package resourceImpl;
 import mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -21,6 +22,7 @@ import xsl.pojo.*;
 import xsl.pojo.XslUser;
 
 import javax.annotation.Resource;
+import javax.jms.Destination;
 import java.util.*;
 
 @Controller
@@ -53,6 +55,11 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
+
+	@Autowired
+	private JmsTemplate jmsTemplate;
+	@Resource
+	private Destination creatOrder;
 
 
 	@Override
@@ -189,6 +196,9 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		//异步建立用户关联
 		//异步更新猎人信息
 		//异步生成订单
+		jmsTemplate.send(creatOrder, (session) -> session.createTextMessage("test"));
+
+
 		//异步给雇主发推送
 
 		return XslResult.ok();
