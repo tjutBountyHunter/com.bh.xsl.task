@@ -57,7 +57,7 @@ public class TaskApproveResourceImpl implements TaskApproveResource {
 	 * @return 返回页面显示的数据的集合
 	 */
 	@Override
-	public PageObject SelectTaskApprove(ErpTaskInfoReqVo erpTaskInfoReqVo) {
-		return erpTaskInfoResource.SelectTaskAll(erpTaskInfoReqVo);//只查询待接收的任务
+	public PageObject selectTaskApprove(ErpTaskInfoReqVo erpTaskInfoReqVo) {
+		return erpTaskInfoResource.selectTaskAll(erpTaskInfoReqVo);//只查询待接收的任务
 	}
 }

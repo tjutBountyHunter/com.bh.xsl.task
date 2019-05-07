@@ -15,7 +15,7 @@ import service.impl.searchTaskMQImpl;
 import service.searchTaskMQ;
 import util.*;
 import vo.*;
-import vo.XslResult;
+import vo.ResBaseVo;
 import vo.XslSchool;
 import vo.XslSchoolinfo;
 import xsl.pojo.*;
@@ -63,10 +63,10 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 
 
 	@Override
-	public XslResult sendTask(TaskReqVo taskReqVo) {
+	public ResBaseVo sendTask(TaskReqVo taskReqVo) {
 		try {
 			if(StringUtils.isEmpty(taskReqVo.getContent())){
-				return XslResult.build(400, "参数错误");
+				return ResBaseVo.build(400, "参数错误");
 			}
 			//文字扫描屏蔽
 			Map<String, String> map = new HashMap<>(1);
@@ -75,7 +75,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 			XslResultOk fcResult = XslResultOk.format(result);
 			List<String> data = (List<String>) fcResult.getData();
 			if (data != null && data.size() > 0) {
-				return XslResult.build(400, "悬赏任务不合法");
+				return ResBaseVo.build(400, "悬赏任务不合法");
 			}
 
 
@@ -95,7 +95,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 			xslTask.setState((byte) 0);
 
 			if(taskReqVo.getIsRecommend() == null){
-				return XslResult.build(400, "参数错误");
+				return ResBaseVo.build(400, "参数错误");
 			}
 
 			//启动推荐
@@ -107,16 +107,16 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 			int insert = xslTaskMapper.insertSelective(xslTask);
 
 			if(insert < 1){
-				return XslResult.build(500, "服务器异常");
+				return ResBaseVo.build(500, "服务器异常");
 			}
 
 			//发送mq到搜索系统
 			searchTaskMQ searchTaskMQ = new searchTaskMQImpl();
 			searchTaskMQ.addTaskJson(JsonUtils.objectToJson(xslTask));
 
-			XslResult xslResultTag = addTaskTag(taskReqVo, xslTask.getTaskid());
-			XslResult xslResultFile = addTaskFile(taskReqVo, xslTask.getTaskid());
-			XslResult xslResultSchool = addSchoolTask(taskReqVo, xslTask.getTaskid());
+			ResBaseVo xslResultTag = addTaskTag(taskReqVo, xslTask.getTaskid());
+			ResBaseVo xslResultFile = addTaskFile(taskReqVo, xslTask.getTaskid());
+			ResBaseVo xslResultSchool = addSchoolTask(taskReqVo, xslTask.getTaskid());
 
 			if(xslResultFile.isOK() && xslResultTag.isOK() && xslResultSchool.isOK()){
 				//异步启动推荐
@@ -127,27 +127,27 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 				//异步更新雇主信息
 
 
-				return XslResult.ok(xslTask.getTaskid());
+				return ResBaseVo.ok(xslTask.getTaskid());
 			}
 
-			return XslResult.build(500, "服务器异常");
+			return ResBaseVo.build(500, "服务器异常");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return XslResult.build(500, "服务器异常");
+			return ResBaseVo.build(500, "服务器异常");
 		}
 	}
 
 	@Override
-	public XslResult receiveTask(RecTaskReqVo recTaskReqVo) {
+	public ResBaseVo receiveTask(RecTaskReqVo recTaskReqVo) {
 		String hunterid = recTaskReqVo.getHunterid();
 		String taskid = recTaskReqVo.getTaskId();
 		//1.判断用户状态
 		vo.XslUser userInfo = userInfoResouce.getUserInfoByHunterId(hunterid);
 		if(userInfo == null){
-			return XslResult.build(403, "您无权操作");
+			return ResBaseVo.build(403, "您无权操作");
 		}
 		if(1 != userInfo.getState()){
-			return XslResult.build(403, "您无权操作");
+			return ResBaseVo.build(403, "您无权操作");
 		}
 
 		//2.获取任务信息
@@ -156,7 +156,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		criteria.andTaskidEqualTo(taskid);
 		List<XslTask> taskList = xslTaskMapper.selectByExample(xslTaskExample);
 		if(taskList == null || taskList.size() < 1){
-			return XslResult.build(500, "任务信息异常");
+			return ResBaseVo.build(500, "任务信息异常");
 		}
 
 		XslTask xslTask = taskList.get(0);
@@ -164,11 +164,11 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		String masterid = userInfo.getMasterid();
 
 		if(masterid.equals(xslTask.getSendid())){
-			return XslResult.build(403, "请不要接自己发送的任务");
+			return ResBaseVo.build(403, "请不要接自己发送的任务");
 		}
 		Byte state = xslTask.getState();
 		if(!(0 == state || 1 == state)){
-			return XslResult.build(403, "任务已经被抢走");
+			return ResBaseVo.build(403, "任务已经被抢走");
 		}
 
 		xslTask.setState((byte) 2);
@@ -181,7 +181,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		int i = xslTaskMapper.updateByExampleSelective(xslTask, xslTaskExample);
 
 		if(i < 1){
-			return XslResult.build(403, "任务接收失败");
+			return ResBaseVo.build(403, "任务接收失败");
 		}
 
 		XslHunterTask xslHunterTask = new XslHunterTask();
@@ -190,7 +190,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		xslHunterTask.setTaskstate((byte) 2);
 		int count = xslHunterTaskMapper.insertSelective(xslHunterTask);
 		if(count < 1){
-			return XslResult.build(403, "请不要接自己发送的任务");
+			return ResBaseVo.build(403, "请不要接自己发送的任务");
 		}
 
 		//异步建立用户关联
@@ -201,11 +201,11 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 
 		//异步给雇主发推送
 
-		return XslResult.ok();
+		return ResBaseVo.ok();
 	}
 
 	@Override
-	public XslResult confirmTask(ConfirmTaskReqVo confirmTaskReqVo) {
+	public ResBaseVo confirmTask(ConfirmTaskReqVo confirmTaskReqVo) {
 		String taskId = confirmTaskReqVo.getTaskId();
 		String hunterId = confirmTaskReqVo.getHunterid();
 		//检测任务状态
@@ -214,11 +214,11 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		List<XslTask> taskList = xslTaskMapper.selectByExample(xslTaskExample);
 
 		if(taskList == null || taskList.size() == 0){
-			return XslResult.build(403, "任务不存在");
+			return ResBaseVo.build(403, "任务不存在");
 		}
 		XslTask xslTask = taskList.get(0);
 		if(2 != xslTask.getState()){
-			return XslResult.build(403, "任务状态错误");
+			return ResBaseVo.build(403, "任务状态错误");
 		}
 
 		//检测连接状态
@@ -227,33 +227,33 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		List<XslHunterTask> xslHunterTasks = xslHunterTaskMapper.selectByExample(xslHunterTaskExample);
 
 		if(xslHunterTasks == null || xslHunterTasks.size() == 0){
-			return XslResult.build(403, "猎人信息有误");
+			return ResBaseVo.build(403, "猎人信息有误");
 		}
 		XslHunterTask xslHunterTask = xslHunterTasks.get(0);
 		if(2 != xslHunterTask.getTaskstate()){
-			return XslResult.build(403, "任务状态有误");
+			return ResBaseVo.build(403, "任务状态有误");
 		}
 
 		//更新任务状态
 		xslTask.setState((byte) 4);
 		int i = xslTaskMapper.updateByExampleSelective(xslTask, xslTaskExample);
 		if(i < 1){
-			return XslResult.build(500, "服务器异常");
+			return ResBaseVo.build(500, "服务器异常");
 		}
 
 		//更新连接状态
 		xslHunterTask.setTaskstate((byte) 2);
 		int i1 = xslHunterTaskMapper.updateByExampleSelective(xslHunterTask, xslHunterTaskExample);
 		if(i1 < 1){
-			return XslResult.build(500, "服务器异常");
+			return ResBaseVo.build(500, "服务器异常");
 		}
 		//增加经验
 
 
-		return XslResult.ok();
+		return ResBaseVo.ok();
 	}
 
-	private XslResult hunterRecommendAndPush(XslTask xslTask){
+	private ResBaseVo hunterRecommendAndPush(XslTask xslTask){
 
 		List<String> recommend;
 		//猎人标签推优算法
@@ -289,16 +289,16 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 			jpushResource.sendByPhone(jPushVo);
 		}
 
-		return XslResult.ok();
+		return ResBaseVo.ok();
 	}
 
 
-	private XslResult addTaskFile(TaskReqVo taskReqVo, String taskId) {
+	private ResBaseVo addTaskFile(TaskReqVo taskReqVo, String taskId) {
 		try {
 			List<ImageVo> images = taskReqVo.getImages();
 
 			if(images.size() < 1){
-				return XslResult.ok();
+				return ResBaseVo.ok();
 			}
 
 			List<XslTaskFile> xslTaskFiles = new ArrayList<>();
@@ -316,15 +316,15 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return XslResult.build(500, "服务器异常");
+			return ResBaseVo.build(500, "服务器异常");
 		}
 
-		return XslResult.ok();
+		return ResBaseVo.ok();
 
 
 	}
 
-	private XslResult addSchoolTask(TaskReqVo taskReqVo, String taskid) {
+	private ResBaseVo addSchoolTask(TaskReqVo taskReqVo, String taskid) {
 		vo.XslUser user = userInfoResouce.getUserInfoMasterId(taskReqVo.getMasterId());
 		String schoolinfo = user.getSchoolinfo();
 		XslSchoolinfo schoolInfo = userInfoResouce.getSchoolInfo(schoolinfo);
@@ -341,18 +341,18 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 			throw new RuntimeException("任务学校信息关联异常");
 		}
 
-		return XslResult.ok();
+		return ResBaseVo.ok();
 	}
 
 	/**
 	 * 添加任务标签关系数据
 	 */
-	private XslResult addTaskTag(TaskReqVo taskReqVo, String taskId) {
+	private ResBaseVo addTaskTag(TaskReqVo taskReqVo, String taskId) {
 		try {
 			List<TagVo> tags = taskReqVo.getTags();
 
 			if(tags.size() < 1){
-				return XslResult.ok();
+				return ResBaseVo.ok();
 			}
 
 			List<XslTaskTag> xslTaskTags = new ArrayList<>();
@@ -373,13 +373,13 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return XslResult.build(500, "服务器异常");
+			return ResBaseVo.build(500, "服务器异常");
 		}
 
-		return XslResult.ok();
+		return ResBaseVo.ok();
 	}
 
-	private XslResult updateTagNum(List<TagVo> tags){
+	private ResBaseVo updateTagNum(List<TagVo> tags){
 		List<String> tagIds = new ArrayList<>(tags.size());
 		for (TagVo tagVo : tags){
 			tagIds.add(tagVo.getTagid());
@@ -392,7 +392,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		if(i < 1){
 			throw new RuntimeException();
 		}
-		return XslResult.ok();
+		return ResBaseVo.ok();
 	}
 
 	private Set<String> networkHunter(XslTask xslTask) {

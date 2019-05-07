@@ -13,7 +13,6 @@ import service.HunterRecommend;
 import vo.*;
 import vo.XslHunter;
 import vo.XslMaster;
-import vo.XslResult;
 import vo.XslSchool;
 import vo.XslUser;
 import xsl.pojo.*;
@@ -56,12 +55,17 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 
 
 	@Override
-	public XslResult initTaskInfo(TaskInfoListReqVo taskInfoListReqVo) {
+	public TaskInfoListResVo initTaskInfo(TaskInfoListReqVo taskInfoListReqVo) {
+		TaskInfoListResVo taskInfoListResVo = new TaskInfoListResVo();
+		taskInfoListResVo.setStatus(200);
+		taskInfoListResVo.setMsg("成功");
 		//1.获取学校id
 		String schoolName = taskInfoListReqVo.getSchoolName();
 		vo.XslSchool school = userInfoResouce.getSchoolByName(schoolName);
 		if(school == null){
-			return XslResult.build(403, "请重新选择学校");
+			taskInfoListResVo.setStatus(403);
+			taskInfoListResVo.setMsg("请重新选择学校");
+			return taskInfoListResVo;
 		}
 		Integer schoolId = school.getId();
 
@@ -70,10 +74,9 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 		PageHelper.startPage(1, size);
 		List<String> taskIds = xslSchoolTaskMapper.selectTaskIdBySchoolId(schoolId);
 		if(taskIds.size() == 0){
-			return XslResult.ok();
+			return taskInfoListResVo;
 		}
 
-		TaskInfoListResVo taskInfoListResVo = new TaskInfoListResVo();
 		PageHelper.startPage(1, size);
 		List<Integer> ids = xslSchoolTaskMapper.selectIdBySchoolId(schoolId);
 		Integer max = Collections.max(ids);
@@ -85,7 +88,7 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 		List<TaskInfoVo> taskInfoList = getTaskInfoList(taskIds);
 		taskInfoListResVo.setTaskInfoVos(taskInfoList);
 
-		return XslResult.ok(taskInfoListResVo);
+		return taskInfoListResVo;
 	}
 
 
@@ -139,8 +142,10 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 	}
 
 	@Override
-	public XslResult reloadTaskInfo(TaskInfoListReqVo taskInfoListReqVo) {
+	public TaskInfoListResVo reloadTaskInfo(TaskInfoListReqVo taskInfoListReqVo) {
 		TaskInfoListResVo taskInfoListResVo = new TaskInfoListResVo();
+		taskInfoListResVo.setStatus(200);
+		taskInfoListResVo.setMsg("成功");
 		List<String> taskIds = null;
 
 		//1.获取学校id对应的任务
@@ -156,14 +161,16 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 
 
 		if(taskIds == null || taskIds.size() == 0){
-			return XslResult.ok(taskInfoListResVo);
+			return taskInfoListResVo;
 		}
 
 		//2.获取学校id
 		String schoolName = taskInfoListReqVo.getSchoolName();
 		XslSchool school = userInfoResouce.getSchoolByName(schoolName);
 		if(school == null){
-			return XslResult.build(403, "请重新选择学校");
+			taskInfoListResVo.setStatus(403);
+			taskInfoListResVo.setMsg("请重新选择学校");
+			return taskInfoListResVo;
 		}
 		Integer schoolId = school.getId();
 
@@ -187,13 +194,18 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 		List<TaskInfoVo> taskInfoList = getTaskInfoList(taskIds);
 		taskInfoListResVo.setTaskInfoVos(taskInfoList);
 
-		return XslResult.ok(taskInfoListResVo);
+		return taskInfoListResVo;
 	}
 
 	@Override
-	public XslResult taskInfo(String taskId) {
+	public TaskInfoResVo taskInfo(String taskId) {
+		TaskInfoResVo taskInfoResVo = new TaskInfoResVo();
+		taskInfoResVo.setStatus(200);
+		taskInfoResVo.setMsg("成功");
 		if(StringUtils.isEmpty(taskId)){
-			return XslResult.build(403, "任务不存在");
+			taskInfoResVo.setStatus(403);
+			taskInfoResVo.setMsg("任务不存在");
+			return taskInfoResVo;
 		}
 
 		//获取任务信息
@@ -202,10 +214,11 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 		List<XslTask> taskList = xslTaskMapper.selectByExample(xslTaskExample);
 
 		if(taskList == null || taskList.size() == 0){
-			return XslResult.build(403, "任务不存在");
+			taskInfoResVo.setStatus(403);
+			taskInfoResVo.setMsg("任务不存在");
+			return taskInfoResVo;
 		}
 
-		TaskInfoResVo taskInfoResVo = new TaskInfoResVo();
 		XslTask xslTask = taskList.get(0);
 		BeanUtils.copyProperties(xslTask, taskInfoResVo);
 		taskInfoResVo.setTaskId(xslTask.getTaskid());
@@ -263,6 +276,6 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 			taskInfoResVo.setHunterInfo(hunterInfo);
 		}
 
-		return XslResult.ok(taskInfoResVo);
+		return taskInfoResVo;
 	}
 }

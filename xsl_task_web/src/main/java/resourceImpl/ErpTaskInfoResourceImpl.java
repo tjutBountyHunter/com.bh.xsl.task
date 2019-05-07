@@ -35,7 +35,7 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 
 
 	@Override
-	public PageObject SelectTaskAll(ErpTaskInfoReqVo erpTaskInfoReqVo) {
+	public PageObject selectTaskAll(ErpTaskInfoReqVo erpTaskInfoReqVo) {
 		 Integer page = erpTaskInfoReqVo.getPage();
 		 Integer rows = erpTaskInfoReqVo.getRows();
 		 Integer id = erpTaskInfoReqVo.getId();
@@ -87,7 +87,7 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 	 * @return
 	 */
 	@Override
-	public boolean InsertXslTask(List<Task> xslTasks) {
+	public boolean insertXslTask(List<Task> xslTasks) {
 		String tag = "任务分页添加";
 		//进行添加，查看是否是null
 		if( xslTasks == null || xslTasks.size() == 0){
@@ -119,7 +119,7 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 	 * @return
 	 */
 	@Override
-	public boolean UpdateXslTask(List<Task> xslTasks) {
+	public boolean updateXslTask(List<Task> xslTasks) {
 		String tag = "任务更新";
 		if(xslTasks == null || xslTasks.size() == 0){
 			return false;

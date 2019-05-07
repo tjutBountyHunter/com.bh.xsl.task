@@ -1,26 +1,27 @@
 package resource;
 
 import vo.TaskInfoListReqVo;
-import vo.XslResult;
+import vo.TaskInfoListResVo;
+import vo.TaskInfoResVo;
 
 public interface TaskInfoResource {
 	/**
 	 * 初始化任务大厅数据
 	 * @return
 	 */
-	XslResult initTaskInfo(TaskInfoListReqVo taskInfoListReqVo);
+	TaskInfoListResVo initTaskInfo(TaskInfoListReqVo taskInfoListReqVo);
 
 
 	/**
 	 * 刷新任务大厅数据
 	 * @return
 	 */
-	XslResult reloadTaskInfo(TaskInfoListReqVo taskInfoListReqVo);
+	TaskInfoListResVo reloadTaskInfo(TaskInfoListReqVo taskInfoListReqVo);
 
 	/**
 	 * 任务详情
 	 * @return
 	 */
-	XslResult taskInfo(String taskId);
+	TaskInfoResVo taskInfo(String taskId);
 
 }
