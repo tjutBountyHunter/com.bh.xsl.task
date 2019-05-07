@@ -7,7 +7,7 @@ import xsl.pojo.XslTagExample;
 import java.util.List;
 
 public interface XslTagMapper {
-    long countByExample(XslTagExample example);
+    int countByExample(XslTagExample example);
 
     int deleteByExample(XslTagExample example);
 
@@ -19,6 +19,8 @@ public interface XslTagMapper {
 
     List<XslTag> selectByExample(XslTagExample example);
 
+    List<XslTag> selectByExampleLimit(@Param("example") XslTagExample example, @Param("limit") Integer limit);
+
     XslTag selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") XslTag record, @Param("example") XslTagExample example);
@@ -28,4 +30,6 @@ public interface XslTagMapper {
     int updateByPrimaryKeySelective(XslTag record);
 
     int updateByPrimaryKey(XslTag record);
+
+    int updateUseNumByExample(XslTagExample example);
 }

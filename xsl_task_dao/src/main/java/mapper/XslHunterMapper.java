@@ -30,4 +30,13 @@ public interface XslHunterMapper {
     int updateByPrimaryKey(XslHunter record);
 
     int updateByHunterIdSelective(XslHunter record);
+
+    //    重写
+    int selectMaxLevel();
+
+    int selectMaxTaskAccNum();
+
+    XslHunter selectHunterByHunterId(String hunterId);
+
+    List<String> selectGoodHunter();
 }

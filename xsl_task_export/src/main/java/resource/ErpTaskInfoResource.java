@@ -19,7 +19,7 @@ public interface ErpTaskInfoResource {
 
 	boolean deleteXslTask(List<Task> xslTasks);
 
-	boolean delXslTask(List<Task> xslTask);
+	boolean delXslTask(Task task);
 
 
 

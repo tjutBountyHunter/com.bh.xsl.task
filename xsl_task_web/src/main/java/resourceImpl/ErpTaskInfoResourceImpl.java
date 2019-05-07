@@ -14,8 +14,8 @@ import resource.ErpTaskInfoResource;
 import resource.UserInfoResouce;
 import util.DateUtils;
 import vo.*;
-import xsl.pojo.XslTask;
-import xsl.pojo.XslTaskExample;
+import vo.XslUser;
+import xsl.pojo.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -29,11 +29,7 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 	@Resource
 	private XslTaskMapper xslTaskMapper;
 	@Resource
-	private XslTaskCategoryMapper xslTaskCategoryMapper;
-	@Resource
 	private XslTaskTagMapper xslTaskTagMapper;
-	@Resource
-	private XslMasterMapper xslMasterMapper;
 	@Resource
 	private UserInfoResouce userInfoResouce;
 
@@ -84,23 +80,120 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 		}
 	}
 
+	/**
+	 * 任务的插入
+	 * 只有状态为4和0（未审核、待接收）的时候才被创建
+	 * @param xslTasks
+	 * @return
+	 */
 	@Override
 	public boolean InsertXslTask(List<Task> xslTasks) {
-		return false;
+		String tag = "任务分页添加";
+		//进行添加，查看是否是null
+		if( xslTasks == null || xslTasks.size() == 0){
+			return false;
+		}
+		for(Task task : xslTasks){
+
+		try{
+			task.setSendid("666666");
+			XslTask xslTask = new XslTask();
+			BeanUtils.copyProperties(task, xslTask);
+			int n = this.xslTaskMapper.insertSelective(xslTask);
+			if( n < 0 ){
+				return false;
+			}
+
+			}catch (Exception e){
+				logger.error(tag + "异常警报  :" + e.getMessage());
+				return false;
+			}
+		}
+
+		return true;
 	}
 
+	/**
+	 * 任务的更新
+	 * @param xslTasks
+	 * @return
+	 */
 	@Override
 	public boolean UpdateXslTask(List<Task> xslTasks) {
-		return false;
+		String tag = "任务更新";
+		if(xslTasks == null || xslTasks.size() == 0){
+			return false;
+		}
+
+		for(Task task : xslTasks){
+			try{
+				XslTask xslTask = new XslTask();
+				BeanUtils.copyProperties(task, xslTask);
+				int n = this.xslTaskMapper.updateByPrimaryKeySelective(xslTask);
+				if(n < 0){
+					logger.error(tag + "是失败!");
+					return false;
+				}
+
+			}catch (Exception e){
+				logger.error(tag + "异常警报  :" + e.getMessage());
+				return false;
+			}
+		}
+
+		return true;
 	}
 
+	/**
+	 * 任务的删除
+	 * ①任务逻辑删除 -1：冻结
+	 * @return
+	 */
 	@Override
 	public boolean deleteXslTask(List<Task> xslTasks) {
-		return false;
+		String tag = "任务删除";
+		if(xslTasks != null){ //进行null的判断
+			for(Task task : xslTasks){
+				try{
+					delXslTask(task);
+				}catch (Exception e){
+					logger.error(tag + "异常警报 :" + e.getMessage());
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
+	/**
+	 * 单任务删除
+	 * @param task
+	 * @return
+	 */
 	@Override
-	public boolean delXslTask(List<Task> xslTask) {
-		return false;
+	public boolean delXslTask(Task task) {
+		if (task != null) {
+			//-1代表冻结的意思，进行逻辑删除
+			task.setState((byte) (-1));
+			XslTask xslTask = new XslTask();
+			BeanUtils.copyProperties(task, xslTask);
+
+			int n = xslTaskMapper.updateByPrimaryKeySelective(xslTask);
+
+			if (n < 0) {
+				return false;
+			}
+			//2.进行任务相关的标签删除
+			XslTaskTag xslTaskTag = new XslTaskTag();
+			xslTaskTag.setState(false);
+
+			//3.进行任务id为此逻辑删除id的任务标签全部删除
+			XslTaskTagExample example = new XslTaskTagExample();
+			XslTaskTagExample.Criteria criteria = example.createCriteria();
+			criteria.andTaskidEqualTo(xslTask.getTaskid());
+			xslTaskTagMapper.updateByExampleSelective(xslTaskTag, example);
+		}
+		return true;
 	}
+
 }

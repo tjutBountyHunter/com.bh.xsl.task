@@ -1,5 +1,6 @@
 package mapper;
 
+
 import org.apache.ibatis.annotations.Param;
 import xsl.pojo.XslTaskTag;
 import xsl.pojo.XslTaskTagExample;
@@ -7,7 +8,7 @@ import xsl.pojo.XslTaskTagExample;
 import java.util.List;
 
 public interface XslTaskTagMapper {
-    long countByExample(XslTaskTagExample example);
+    int countByExample(XslTaskTagExample example);
 
     int deleteByExample(XslTaskTagExample example);
 
@@ -28,4 +29,13 @@ public interface XslTaskTagMapper {
     int updateByPrimaryKeySelective(XslTaskTag record);
 
     int updateByPrimaryKey(XslTaskTag record);
+
+    int insertSelectiveBatch(List<XslTaskTag> list);
+
+//    重写
+    List<XslTaskTag> getTagsByTaskId(String taskId);
+
+    List<XslTaskTag> getTasksByTagId(String taskTag);
+
+    List<String> selectTagIdByExample(XslTaskTagExample example);
 }

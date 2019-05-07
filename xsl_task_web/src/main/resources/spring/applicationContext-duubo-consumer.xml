@@ -15,5 +15,7 @@
 
     <dubbo:reference id="userInfoResource" check="true" interface="resource.UserInfoResouce"/>
 
+    <dubbo:reference id="jpushResource" check="true" interface="resource.JpushResource" />
+
 
 </beans>
