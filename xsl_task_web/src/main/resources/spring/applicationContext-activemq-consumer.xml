@@ -36,13 +36,13 @@
 
     <!-- 监听任务添加消息，同步索引库(新) -->
     <!--creatOrder -->
-    <bean id="creatOrder" class="org.apache.activemq.command.ActiveMQTopic">
-        <constructor-arg value="creatOrder" />
+    <bean id="createOrder" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="createOrder" />
     </bean>
     <bean id="createOrderLisener" class="listener.CreateOrderLisener"/>
     <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactory" />
-        <property name="destination" ref="creatOrder" />
+        <property name="destination" ref="createOrder" />
         <property name="messageListener" ref="createOrderLisener" />
     </bean>
 

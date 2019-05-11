@@ -59,7 +59,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 	@Autowired
 	private JmsTemplate jmsTemplate;
 	@Resource
-	private Destination creatOrder;
+	private Destination createOrder;
 
 
 	@Override
@@ -196,7 +196,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		//异步建立用户关联
 		//异步更新猎人信息
 		//异步生成订单
-		jmsTemplate.send(creatOrder, (session) -> session.createTextMessage("test"));
+		jmsTemplate.send(createOrder, (session) -> session.createTextMessage("test"));
 
 
 		//异步给雇主发推送
