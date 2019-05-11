@@ -75,6 +75,7 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 			object.setTotal(info.getTotal());
 		}catch (Exception e){
 			logger.error("获取任务信息异常警报 :" + e.getMessage());
+			throw new RuntimeException(e);
 		}finally {
 			return object;
 		}

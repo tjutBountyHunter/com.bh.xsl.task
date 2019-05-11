@@ -23,8 +23,8 @@
         <property name="pubSubDomain" value="true" />
     </bean>
 
-    <!--creatOrder -->
-    <bean id="creatOrder" class="org.apache.activemq.command.ActiveMQTopic">
-        <constructor-arg value="creatOrder" />
-    </bean>
+    <!--&lt;!&ndash;creatOrder &ndash;&gt;-->
+    <!--<bean id="creatOrder" class="org.apache.activemq.command.ActiveMQTopic">-->
+        <!--<constructor-arg value="creatOrder" />-->
+    <!--</bean>-->
 </beans>
