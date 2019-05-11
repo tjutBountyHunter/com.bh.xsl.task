@@ -18,7 +18,7 @@
 
         <dependency>
             <groupId>com.bh.xsl.user</groupId>
-            <artifactId>xsl_user_export</artifactId>
+            <artifactId>xsl-user-export</artifactId>
         </dependency>
 
         <!-- dubbo相关 -->
