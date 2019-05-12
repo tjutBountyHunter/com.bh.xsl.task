@@ -1,6 +1,7 @@
 package resourceImpl;
 
 import com.github.pagehelper.PageHelper;
+import com.xsl.user.UserInfoResouce;
 import mapper.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import resource.TaskInfoResource;
-import resource.UserInfoResouce;
 import service.HunterRecommend;
 import vo.*;
-import vo.XslHunter;
-import vo.XslMaster;
-import vo.XslSchool;
-import vo.XslUser;
 import xsl.pojo.*;
 
 import javax.annotation.Resource;
@@ -61,7 +57,7 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 		taskInfoListResVo.setMsg("成功");
 		//1.获取学校id
 		String schoolName = taskInfoListReqVo.getSchoolName();
-		vo.XslSchool school = userInfoResouce.getSchoolByName(schoolName);
+		SchoolVo school = userInfoResouce.getSchoolByName(schoolName);
 		if(school == null){
 			taskInfoListResVo.setStatus(403);
 			taskInfoListResVo.setMsg("请重新选择学校");
@@ -103,8 +99,8 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 		for (XslTask xslTask : taskList) {
 			TaskInfoVo taskInfoVo = new TaskInfoVo();
 			String masterId = xslTask.getSendid();
-			vo.XslMaster masterInfo = userInfoResouce.getMasterInfo(masterId);
-			vo.XslUser userInfo = userInfoResouce.getUserInfoMasterId(masterId);
+			MasterVo masterInfo = userInfoResouce.getMasterInfo(masterId);
+			UserVo userInfo = userInfoResouce.getUserInfoMasterId(masterId);
 
 			//获取任务标签
 			String taskid = xslTask.getTaskid();
@@ -166,7 +162,7 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 
 		//2.获取学校id
 		String schoolName = taskInfoListReqVo.getSchoolName();
-		XslSchool school = userInfoResouce.getSchoolByName(schoolName);
+		SchoolVo school = userInfoResouce.getSchoolByName(schoolName);
 		if(school == null){
 			taskInfoListResVo.setStatus(403);
 			taskInfoListResVo.setMsg("请重新选择学校");
@@ -248,13 +244,13 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 
 		//获取雇主信息
 		String masterId = xslTask.getSendid();
-		XslMaster master = userInfoResouce.getMasterInfo(masterId);
+		MasterVo master = userInfoResouce.getMasterInfo(masterId);
 		MasterInfo masterInfo = new MasterInfo();
 		BeanUtils.copyProperties(master, masterInfo);
 		masterInfo.setTxUrl("http://47.93.200.190/images/default.png");
 
 		//获取手机号
-		vo.XslUser userInfo = userInfoResouce.getUserInfoMasterId(masterId);
+		UserVo userInfo = userInfoResouce.getUserInfoMasterId(masterId);
 		masterInfo.setPhone(userInfo.getPhone());
 		taskInfoResVo.setMasterInfo(masterInfo);
 
@@ -267,10 +263,10 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 			String hunterId = xslHunterTasks.get(0).getHunterid();
 
 			//获取猎人信息
-			XslHunter hunter = userInfoResouce.getHunterInfo(hunterId);
+			HunterVo hunter = userInfoResouce.getHunterInfo(hunterId);
 			HunterInfo hunterInfo = new HunterInfo();
 			BeanUtils.copyProperties(hunter, hunterInfo);
-			XslUser user = userInfoResouce.getUserInfoByHunterId(hunterId);
+			UserVo user = userInfoResouce.getUserInfoByHunterId(hunterId);
 			hunterInfo.setPhone(user.getPhone());
 			hunterInfo.setTxUrl("http://47.93.200.190/images/default.png");
 			taskInfoResVo.setHunterInfo(hunterInfo);

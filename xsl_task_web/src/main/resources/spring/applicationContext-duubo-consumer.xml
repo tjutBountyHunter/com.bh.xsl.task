@@ -11,11 +11,11 @@
     <dubbo:application name="taskCenter"/>
     <dubbo:registry protocol="zookeeper" address="47.93.230.61:2181"/>
 
-    <dubbo:reference id="userResource" check="true" interface="resource.UserResource"/>
+    <dubbo:reference id="userResource" check="true" interface="com.xsl.user.UserResource"/>
 
-    <dubbo:reference id="userInfoResource" check="true" interface="resource.UserInfoResouce"/>
+    <dubbo:reference id="userInfoResource" check="true" interface="com.xsl.user.UserInfoResouce"/>
 
-    <dubbo:reference id="jpushResource" check="true" interface="resource.JpushResource" />
+    <dubbo:reference id="jpushResource" check="true" interface="com.xsl.user.JpushResource" />
 
 
 </beans>

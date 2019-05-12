@@ -2,8 +2,7 @@ package resourceImpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import mapper.XslMasterMapper;
-import mapper.XslTaskCategoryMapper;
+import com.xsl.user.UserInfoResouce;
 import mapper.XslTaskMapper;
 import mapper.XslTaskTagMapper;
 import org.slf4j.Logger;
@@ -11,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import resource.ErpTaskInfoResource;
-import resource.UserInfoResouce;
 import util.DateUtils;
 import vo.*;
-import vo.XslUser;
 import xsl.pojo.*;
 
 import javax.annotation.Resource;
@@ -64,7 +61,7 @@ public class ErpTaskInfoResourceImpl implements ErpTaskInfoResource {
 				taskInfoReqVo.setDeadline(DateUtils.getDateTimeToString(xslTask.getDeadline()));
 
 				String masterId = xslTask.getSendid();
-				XslUser xslUser = userInfoResouce.getUserInfoMasterId(masterId);
+				UserVo xslUser = userInfoResouce.getUserInfoMasterId(masterId);
 				taskInfoReqVo.setPhone(xslUser.getPhone());
 				taskInfoReqVos.add(taskInfoReqVo);
 			}

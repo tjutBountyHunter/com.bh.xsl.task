@@ -1,23 +1,20 @@
 package resourceImpl;
 
+import com.xsl.user.JpushResource;
+import com.xsl.user.UserInfoResouce;
 import mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import resource.JpushResource;
 import resource.TaskOperateResource;
-import resource.UserInfoResouce;
 import service.HunterRecommend;
 import service.impl.searchTaskMQImpl;
 import service.searchTaskMQ;
 import util.*;
 import vo.*;
 import vo.ResBaseVo;
-import vo.XslSchool;
-import vo.XslSchoolinfo;
 import xsl.pojo.*;
 import xsl.pojo.XslUser;
 
@@ -142,7 +139,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		String hunterid = recTaskReqVo.getHunterid();
 		String taskid = recTaskReqVo.getTaskId();
 		//1.判断用户状态
-		vo.XslUser userInfo = userInfoResouce.getUserInfoByHunterId(hunterid);
+		UserVo userInfo = userInfoResouce.getUserInfoByHunterId(hunterid);
 		if(userInfo == null){
 			return ResBaseVo.build(403, "您无权操作");
 		}
@@ -325,11 +322,11 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 	}
 
 	private ResBaseVo addSchoolTask(TaskReqVo taskReqVo, String taskid) {
-		vo.XslUser user = userInfoResouce.getUserInfoMasterId(taskReqVo.getMasterId());
+		UserVo user = userInfoResouce.getUserInfoMasterId(taskReqVo.getMasterId());
 		String schoolinfo = user.getSchoolinfo();
-		XslSchoolinfo schoolInfo = userInfoResouce.getSchoolInfo(schoolinfo);
+		SchoolinfoVo schoolInfo = userInfoResouce.getSchoolInfo(schoolinfo);
 		String schoolName = schoolInfo.getSchool();
-		XslSchool school = userInfoResouce.getSchoolByName(schoolName);
+		SchoolVo school = userInfoResouce.getSchoolByName(schoolName);
 
 		XslSchoolTask xslSchoolTask = new XslSchoolTask();
 		xslSchoolTask.setSchoolid(school.getId());
