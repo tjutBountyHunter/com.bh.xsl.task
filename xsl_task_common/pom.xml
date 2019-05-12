@@ -12,6 +12,8 @@
     <artifactId>xsl_task_common</artifactId>
 
     <dependencies>
+
+
         <!-- JSP相关 -->
         <dependency>
             <groupId>jstl</groupId>
