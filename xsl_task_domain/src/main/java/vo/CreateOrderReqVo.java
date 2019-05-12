@@ -1,6 +1,8 @@
 package vo;
 
-public class CreateOrderReqVo {
+import java.io.Serializable;
+
+public class CreateOrderReqVo implements Serializable {
 	private String taskId;
 	private String hunterId;
 

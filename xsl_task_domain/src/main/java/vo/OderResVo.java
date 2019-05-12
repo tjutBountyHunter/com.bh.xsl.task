@@ -1,9 +1,10 @@
 package vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class OderResVo {
+public class OderResVo implements Serializable {
     private String oderId;
     private String sendName;
     private String receiveName;

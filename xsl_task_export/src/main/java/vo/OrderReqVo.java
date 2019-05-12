@@ -1,6 +1,8 @@
 package vo;
 
-public class OrderReqVo {
+import java.io.Serializable;
+
+public class OrderReqVo implements Serializable {
    private int page;
    private int rows;
    public void setPage(int page){this.page=page;}
