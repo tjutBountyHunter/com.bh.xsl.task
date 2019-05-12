@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.XslExtendMapper" >
+  <select id="getUserNameByHunterId" parameterType="String" resultType="String">
+    select
+    name
+    from xsl_user
+    where
+    hunterId = #{hunterId,jdbcType=VARCHAR}
+  </select>
+  <select id="getUserNameByMasterId" parameterType="String" resultType="String">
+    select
+    name
+    from xsl_user
+    where
+    masterId = #{masterId,jdbcType=VARCHAR}
+  </select>
+</mapper>

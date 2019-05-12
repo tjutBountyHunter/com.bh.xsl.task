@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.XslHunterTagMapper">
+  <resultMap id="BaseResultMap" type="xsl.pojo.XslHunterTag">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="hunterId" jdbcType="VARCHAR" property="hunterid" />
+    <result column="tagId" jdbcType="VARCHAR" property="tagid" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="state" jdbcType="BIT" property="state" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, hunterId, tagId, createDate, state
+  </sql>
+  <select id="selectByExample" parameterType="xsl.pojo.XslHunterTagExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xsl_hunter_tag
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xsl_hunter_tag
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xsl_hunter_tag
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="xsl.pojo.XslHunterTagExample">
+    delete from xsl_hunter_tag
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="xsl.pojo.XslHunterTag">
+    insert into xsl_hunter_tag (id, hunterId, tagId, 
+      createDate, state)
+    values (#{id,jdbcType=INTEGER}, #{hunterid,jdbcType=VARCHAR}, #{tagid,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{state,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="xsl.pojo.XslHunterTag">
+    insert into xsl_hunter_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="hunterid != null">
+        hunterId,
+      </if>
+      <if test="tagid != null">
+        tagId,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="hunterid != null">
+        #{hunterid,jdbcType=VARCHAR},
+      </if>
+      <if test="tagid != null">
+        #{tagid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="xsl.pojo.XslHunterTagExample" resultType="java.lang.Long">
+    select count(*) from xsl_hunter_tag
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xsl_hunter_tag
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.hunterid != null">
+        hunterId = #{record.hunterid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tagid != null">
+        tagId = #{record.tagid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdate != null">
+        createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xsl_hunter_tag
+    set id = #{record.id,jdbcType=INTEGER},
+      hunterId = #{record.hunterid,jdbcType=VARCHAR},
+      tagId = #{record.tagid,jdbcType=VARCHAR},
+      createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="xsl.pojo.XslHunterTag">
+    update xsl_hunter_tag
+    <set>
+      <if test="hunterid != null">
+        hunterId = #{hunterid,jdbcType=VARCHAR},
+      </if>
+      <if test="tagid != null">
+        tagId = #{tagid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xsl.pojo.XslHunterTag">
+    update xsl_hunter_tag
+    set hunterId = #{hunterid,jdbcType=VARCHAR},
+      tagId = #{tagid,jdbcType=VARCHAR},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getHuntersByTagId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from xsl_hunter_tag
+    where tagId = #{taskTag,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getTagsByHunterId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from xsl_hunter_tag
+    where hunterId = #{hunterId,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 批量插入 -->
+  <insert id="insertSelectiveBatch" parameterType="java.util.List">
+    insert into xsl_hunter_tag
+    (hunterId, tagId)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+      #{item.hunterid,jdbcType=VARCHAR},
+      #{item.tagid,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+</mapper>

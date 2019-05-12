@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:registry protocol="zookeeper" address="47.93.230.61:2181"/>
+
+    <!-- 注册中心服务地址 -->
+    <dubbo:protocol  name="dubbo" port="-1"/>
+
+    <bean id="erpTaskInfoResource" class="resourceImpl.ErpTaskInfoResourceImpl"/>
+    <dubbo:service interface="resource.ErpTaskInfoResource" ref="erpTaskInfoResource" timeout="600000"/>
+
+    <bean id="taskInfoResource" class="resourceImpl.TaskInfoResourceImpl"/>
+    <dubbo:service interface="resource.TaskInfoResource" ref="taskInfoResource" timeout="600000"/>
+
+    <bean id="taskApproveResource" class="resourceImpl.TaskApproveResourceImpl"/>
+    <dubbo:service interface="resource.TaskApproveResource" ref="taskApproveResource" timeout="600000"/>
+
+    <bean id="taskOperateResource" class="resourceImpl.TaskOperateResourceImpl"/>
+    <dubbo:service interface="resource.TaskOperateResource" ref="taskOperateResource" timeout="600000"/>
+</beans>
