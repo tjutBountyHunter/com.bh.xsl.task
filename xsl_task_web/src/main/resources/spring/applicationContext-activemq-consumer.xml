@@ -36,7 +36,7 @@
 
     <!-- 监听任务添加消息，同步索引库(新) -->
     <!--creatOrder -->
-    <bean id="createOrder" class="org.apache.activemq.command.ActiveMQTopic">
+    <bean id="createOrder" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg value="createOrder" />
     </bean>
     <bean id="createOrderLisener" class="listener.CreateOrderLisener"/>
