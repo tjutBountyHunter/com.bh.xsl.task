@@ -21,6 +21,10 @@
             <artifactId>xsl-user-export</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.bh.xsl.task</groupId>
+            <artifactId>xsl_task_export</artifactId>
+        </dependency>
         <!-- dubbo相关 -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -68,6 +72,11 @@
                     <groupId>org.slf4j</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

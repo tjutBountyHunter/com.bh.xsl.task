@@ -23,4 +23,9 @@
 
     <bean id="taskOperateResource" class="resourceImpl.TaskOperateResourceImpl"/>
     <dubbo:service interface="resource.TaskOperateResource" ref="taskOperateResource" timeout="600000"/>
+
+    <bean id="OrderInfoResource" class="resourceImpl.OrderInfoResourceImpl"/>
+    <dubbo:service interface="resource.OrderInfoResource" ref="OrderInfoResource" timeout="600000"/>
+    
+
 </beans>

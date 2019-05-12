@@ -24,10 +24,6 @@
         <groupId>com.bh.xsl.task</groupId>
         <artifactId>xsl_task_service</artifactId>
     </dependency>
-    <dependency>
-        <groupId>com.bh.xsl.task</groupId>
-        <artifactId>xsl_task_export</artifactId>
-    </dependency>
 
 
     <!-- JSP相关 -->
