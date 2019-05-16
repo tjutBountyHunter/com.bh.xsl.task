@@ -3,7 +3,7 @@ package vo;
 import java.util.List;
 
 //分页所使用的对象
-public class PageObject {
+public class PageObject extends ResBaseVo{
     private long total;
     private List<?> data;
 
