@@ -28,4 +28,6 @@ public interface XslTaskMapper {
     int updateByPrimaryKeySelective(XslTask record);
 
     int updateByPrimaryKey(XslTask record);
+
+    String getTaskTitleByTaskId(String taskId);
 }

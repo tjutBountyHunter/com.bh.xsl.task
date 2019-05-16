@@ -31,4 +31,8 @@ public interface XslUserMapper {
 
     int updateByUserIdSelective(XslUser record);
 
+    String getNameByHunterId(String hunterId);
+    String getNameByMasterId(String masterId);
+
+
 }

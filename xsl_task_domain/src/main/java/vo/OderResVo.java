@@ -1,5 +1,7 @@
 package vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,8 +13,8 @@ public class OderResVo implements Serializable {
     private String taskName;
     private BigDecimal money;
     private int state;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 
     public void setOderId(String oderId) {
         this.oderId = oderId;
@@ -38,14 +40,13 @@ public class OderResVo implements Serializable {
         this.state = state;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
-
 
     public String getOderId() {
         return oderId;
@@ -70,12 +71,12 @@ public class OderResVo implements Serializable {
     public int getState() {
         return state;
     }
-
-    public Date getStartDate() {
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public String getStartDate() {
         return startDate;
     }
-
-    public Date getEndDate() {
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public String getEndDate() {
         return endDate;
     }
 
