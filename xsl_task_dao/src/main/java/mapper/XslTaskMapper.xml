@@ -320,4 +320,8 @@
       sourceType = #{sourcetype,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getTaskTitleByTaskId" parameterType="java.lang.String" resultType="java.lang.String">
+    select taskTitle from xsl_task
+    where taskId=#{taskId}
+  </select>
 </mapper>

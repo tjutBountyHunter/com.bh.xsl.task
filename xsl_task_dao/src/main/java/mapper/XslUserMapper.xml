@@ -393,4 +393,12 @@
     </set>
     where userId = #{userid,jdbcType=VARCHAR}
   </update>
+  <select id="getNameByHunterId" resultType="java.lang.String" parameterType="java.lang.String">
+    select name from xsl_user
+    where hunterId= #{hunterId}
+  </select>
+  <select id="getNameByMasterId" resultType="java.lang.String" parameterType="java.lang.String">
+ select name from xsl_user
+    where masterId= #{masterId}
+  </select>
 </mapper>
