@@ -8,9 +8,9 @@ import mapper.XslUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.XslOrderService;
-import vo.OderResVo;
-import vo.OrderReqVo;
+import vo.OderVo;
 import vo.PageObject;
+import vo.OrderReqVo;
 import xsl.pojo.*;
 import xsl.pojo.XslOrder;
 
@@ -41,10 +41,10 @@ public class XslOrderServiceImpl implements XslOrderService {
             XslTaskExample.Criteria taskCriteria=taskExample.createCriteria();
             XslOrderExample.Criteria orderCriteria=OrderExample.createCriteria();
             PageHelper.startPage(orderReqVo.getPage(), orderReqVo.getRows());
-            List<OderResVo> oderResVoList=new LinkedList<>();
+            List<OderVo> oderResVoList=new LinkedList<>();
           List<XslOrder> orderList = xslOrderMapper.selectByExample(OrderExample);
                   for(XslOrder tmp:orderList){
-                      OderResVo oderResVo=new OderResVo();
+                      OderVo oderResVo=new OderVo();
                       //查询任务名
                       taskCriteria.andTaskidEqualTo(tmp.getTaskid());
                       List<XslTask> taskList=xslTaskMapper.selectByExample(taskExample);

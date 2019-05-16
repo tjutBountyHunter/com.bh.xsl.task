@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class OderResVo implements Serializable {
+public class OderVo implements Serializable {
     private String oderId;
     private String sendName;
     private String receiveName;

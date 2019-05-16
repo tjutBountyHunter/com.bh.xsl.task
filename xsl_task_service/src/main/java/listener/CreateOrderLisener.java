@@ -18,6 +18,7 @@ public class CreateOrderLisener implements MessageListener {
 	public void onMessage(Message message) {
 		TextMessage textMessage = (TextMessage) message;
 		try {
+
 			String text = textMessage.getText();
 			CreateOrderReqVo createOrderReqVo = GsonSingle.getGson().fromJson(text, CreateOrderReqVo.class);
 			orderService.createOrder(createOrderReqVo);
