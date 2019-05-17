@@ -59,7 +59,8 @@ public class XslOrderServiceImpl implements XslOrderService {
 
                   }
                   result.setData(oderResVoList);
-                  result.setTotal(orderList.size());
+                  result.setTotal( xslOrderMapper.countByExample(OrderExample));
+
 
 
         }
