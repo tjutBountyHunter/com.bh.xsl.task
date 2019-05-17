@@ -2,14 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>xsl-task</artifactId>
-        <groupId>com.bh.xsl.task</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xsl_task_export</artifactId>
+    <groupId>com.bh.xsl.task</groupId>
+    <artifactId>xsl-task-export</artifactId>
+    <version>1.1.5</version>
+
+    <distributionManagement>
+    <repository>
+    <id>release_user</id>
+    <name>Release Deploy</name>
+    <url>http://39.96.195.196:8081/repository/maven-releases/</url>
+    </repository>
+    </distributionManagement>
 
 
 </project>

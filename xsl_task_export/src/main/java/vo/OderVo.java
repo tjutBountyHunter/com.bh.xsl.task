@@ -1,10 +1,8 @@
 package vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class OderVo implements Serializable {
     private String oderId;
@@ -71,11 +69,9 @@ public class OderVo implements Serializable {
     public int getState() {
         return state;
     }
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public String getStartDate() {
         return startDate;
     }
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public String getEndDate() {
         return endDate;
     }
