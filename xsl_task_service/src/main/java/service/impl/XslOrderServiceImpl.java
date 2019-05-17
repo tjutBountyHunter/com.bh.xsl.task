@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.XslOrderService;
 import util.DateUtils;
-import vo.OderResVo;
+import vo.OderVo;
 import vo.OrderReqVo;
 import vo.PageObject;
-import vo.OrderReqVo;
 import xsl.pojo.*;
 import xsl.pojo.XslOrder;
 
