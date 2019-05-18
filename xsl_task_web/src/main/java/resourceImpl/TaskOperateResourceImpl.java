@@ -254,8 +254,12 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 	}
 
 	@Override
-	public ResBaseVo calcelTask() {
-		return  cancelTask.cancelTaskDDL();
+	public ResBaseVo calcelTaskDDL() {
+		try {
+			return  cancelTask.cancelTaskDDL();
+		}catch (Exception e){
+			throw new RuntimeException(e);
+		}
 	}
 
 	private ResBaseVo hunterRecommendAndPush(XslTask xslTask){

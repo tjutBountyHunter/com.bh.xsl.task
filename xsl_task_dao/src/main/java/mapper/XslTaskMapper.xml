@@ -347,8 +347,4 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="getTaskTitleByTaskId" parameterType="java.lang.String" resultType="java.lang.String">
-    select taskTitle from xsl_task
-    where taskId=#{taskId}
-  </select>
 </mapper>

@@ -25,6 +25,11 @@ public interface TaskOperateResource {
 	 */
 	ResBaseVo confirmTask(ConfirmTaskReqVo confirmTaskReqVo);
 
-	ResBaseVo calcelTask();
+
+	/**
+	 * 取消超时任务
+	 * @return
+	 */
+	ResBaseVo calcelTaskDDL();
 
 }
