@@ -9,6 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import resource.TaskOperateResource;
+import service.CancelTask;
 import service.HunterRecommend;
 import service.impl.searchTaskMQImpl;
 import service.searchTaskMQ;
@@ -24,6 +25,8 @@ import java.util.*;
 
 @Controller
 public class TaskOperateResourceImpl implements TaskOperateResource {
+	@Autowired
+	private CancelTask cancelTask;
 	@Autowired
 	private XslTaskMapper xslTaskMapper;
 	@Autowired
@@ -248,6 +251,11 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 
 
 		return ResBaseVo.ok();
+	}
+
+	@Override
+	public ResBaseVo calcelTask() {
+		return  cancelTask.cancelTaskDDL();
 	}
 
 	private ResBaseVo hunterRecommendAndPush(XslTask xslTask){
