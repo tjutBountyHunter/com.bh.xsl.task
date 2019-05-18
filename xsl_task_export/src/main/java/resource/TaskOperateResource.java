@@ -25,4 +25,6 @@ public interface TaskOperateResource {
 	 */
 	ResBaseVo confirmTask(ConfirmTaskReqVo confirmTaskReqVo);
 
+	ResBaseVo calcelTask();
+
 }

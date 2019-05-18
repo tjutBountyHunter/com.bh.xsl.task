@@ -30,4 +30,9 @@ public interface XslTaskMapper {
     int updateByPrimaryKey(XslTask record);
 
     String getTaskTitleByTaskId(String taskId);
+
+    List<String> selectTaskIdByExample(XslTaskExample example);
+
+    int cancelTaskDDL(String taskId);
+
 }
