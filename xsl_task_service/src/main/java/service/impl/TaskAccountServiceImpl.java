@@ -9,16 +9,16 @@ import java.math.BigDecimal;
 
 @Service
 public class TaskAccountServiceImpl implements TaskAccountService {
-@Autowired
-private XslTaskMapper xslTaskMapper;
+    @Autowired
+    private XslTaskMapper xslTaskMapper;
     @Override
     public int totalTask() {
-      try {
-          return xslTaskMapper.totalTask();
-      }
-      catch (Exception e){
-          throw  new RuntimeException(e);
-      }
+        try {
+            return xslTaskMapper.totalTask();
+        }
+        catch (Exception e){
+            throw  new RuntimeException(e);
+        }
     }
 
     @Override

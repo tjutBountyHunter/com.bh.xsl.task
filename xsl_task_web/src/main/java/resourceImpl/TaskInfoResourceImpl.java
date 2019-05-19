@@ -23,7 +23,7 @@ import java.util.List;
 @Controller
 public class TaskInfoResourceImpl implements TaskInfoResource {
 	@Autowired
-	private TaskAccountService taskAccount;
+	private TaskAccountService taskAccountService;
 	@Autowired
 	private XslTaskMapper xslTaskMapper;
 	@Autowired
@@ -281,16 +281,16 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 
 	@Override
 	public int totalTask() {
-		return taskAccount.totalTask();
+		return taskAccountService.totalTask();
 	}
 
 	@Override
 	public BigDecimal totalMoney() {
-		return taskAccount.totalMoney();
+		return taskAccountService.totalMoney();
 	}
 
 	@Override
 	public int totalDoneTask() {
-		return taskAccount.totalDoneTask();
+		return taskAccountService.totalDoneTask();
 	}
 }
