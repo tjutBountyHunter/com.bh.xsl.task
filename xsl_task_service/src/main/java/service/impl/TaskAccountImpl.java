@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.TaskAccount;
 
+import java.math.BigDecimal;
+
 @Service
 public class TaskAccountImpl implements TaskAccount {
 @Autowired
@@ -20,7 +22,7 @@ private XslTaskMapper xslTaskMapper;
     }
 
     @Override
-    public int totalMoney() {
+    public BigDecimal totalMoney() {
 
         try {
             return xslTaskMapper.totalMoney();
