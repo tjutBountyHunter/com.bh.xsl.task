@@ -15,6 +15,7 @@ import vo.*;
 import xsl.pojo.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -284,7 +285,7 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 	}
 
 	@Override
-	public int totalMoney() {
+	public BigDecimal totalMoney() {
 		return taskAccount.totalMoney();
 	}
 
