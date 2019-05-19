@@ -3,10 +3,10 @@ package service.impl;
 import mapper.XslTaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.TaskAccount;
+import service.TaskAccountService;
 
 @Service
-public class TaskAccountImpl implements TaskAccount {
+public class TaskAccountServiceImpl implements TaskAccountService {
 @Autowired
 private XslTaskMapper xslTaskMapper;
     @Override

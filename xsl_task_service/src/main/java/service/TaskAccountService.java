@@ -1,6 +1,6 @@
 package service;
 
-public interface TaskAccount {
+public interface TaskAccountService {
     int totalTask();
     int totalMoney();
     int totalDoneTask();

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import resource.TaskInfoResource;
 import service.HunterRecommend;
-import service.TaskAccount;
+import service.TaskAccountService;
 import vo.*;
 import xsl.pojo.*;
 
@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 public class TaskInfoResourceImpl implements TaskInfoResource {
 	@Autowired
-	private TaskAccount taskAccount;
+	private TaskAccountService taskAccount;
 	@Autowired
 	private XslTaskMapper xslTaskMapper;
 	@Autowired
