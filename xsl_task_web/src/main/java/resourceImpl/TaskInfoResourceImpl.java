@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import resource.TaskInfoResource;
 import service.HunterRecommend;
+import service.TaskAccount;
 import vo.*;
 import xsl.pojo.*;
 
@@ -20,6 +21,8 @@ import java.util.List;
 
 @Controller
 public class TaskInfoResourceImpl implements TaskInfoResource {
+	@Autowired
+	private TaskAccount taskAccount;
 	@Autowired
 	private XslTaskMapper xslTaskMapper;
 	@Autowired
@@ -273,5 +276,20 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 		}
 
 		return taskInfoResVo;
+	}
+
+	@Override
+	public int totalTask() {
+		return taskAccount.totalTask();
+	}
+
+	@Override
+	public int totalMoney() {
+		return taskAccount.totalMoney();
+	}
+
+	@Override
+	public int totalDoneTask() {
+		return taskAccount.totalDoneTask();
 	}
 }

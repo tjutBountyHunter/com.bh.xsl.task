@@ -347,4 +347,17 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="totalTask" resultType="int">
+    select count(*)
+    from xsl_task
+  </select>
+  <select id="totalMoney" resultType="int">
+    select  sum(money)
+    from xsl_task
+  </select>
+  <select id="totalDoneTask" resultType="int">
+    select count(*)
+    from xsl_task
+    where state in (3,4)
+  </select>
 </mapper>

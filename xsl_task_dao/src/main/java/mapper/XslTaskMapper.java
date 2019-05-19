@@ -35,4 +35,9 @@ public interface XslTaskMapper {
 
     int cancelTaskDDL(String taskId);
 
+    int totalTask();
+
+    int totalMoney();
+
+    int totalDoneTask();
 }

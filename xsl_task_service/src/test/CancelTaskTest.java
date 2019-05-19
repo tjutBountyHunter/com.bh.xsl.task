@@ -3,6 +3,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.CancelTask;
+import service.TaskAccount;
 
 import javax.annotation.Resource;
 
@@ -12,11 +13,10 @@ public class CancelTaskTest {
 
 
     @Resource
-    private CancelTask cancelTask;
-
+    private TaskAccount taskAccount;
     @Test
     public void test(){
-        cancelTask.cancelTaskDDL();
+        System.out.println(taskAccount.totalMoney());
 
     }
 }

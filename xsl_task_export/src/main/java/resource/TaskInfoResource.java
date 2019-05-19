@@ -24,4 +24,20 @@ public interface TaskInfoResource {
 	 */
 	TaskInfoResVo taskInfo(String taskId);
 
+	/**
+	 * 所有任务数
+	 * @return int
+	 */
+	int totalTask();
+	/**
+	 * 所有金额
+	 * @return int
+	 */
+	int totalMoney();
+	/**
+	 * 所有完成任务数
+	 * @return int
+	 */
+	int totalDoneTask();
+
 }
