@@ -277,4 +277,11 @@
   </select>
 
 
+  <update id="cancelTaskDDL" parameterType="java.lang.String" >
+    update xsl_school_task
+      set state = -2
+    where taskId = #{taskid,jdbcType=VARCHAR}
+  </update>
+
+
 </mapper>

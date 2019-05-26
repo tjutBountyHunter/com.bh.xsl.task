@@ -1,5 +1,6 @@
 package service.impl;
 
+import mapper.XslSchoolTaskMapper;
 import mapper.XslTaskMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ public class CancelTaskImpl implements CancelTask {
     private static final Logger log =  LoggerFactory.getLogger(CancelTaskImpl.class);
     @Autowired
     private XslTaskMapper xslTaskMapper;
+    @Autowired
+    private XslSchoolTaskMapper xslSchoolTaskMapper;
 
 
     @Override
@@ -31,6 +34,7 @@ public class CancelTaskImpl implements CancelTask {
 
             if(ListUtil.isNotEmpty(taskIds)){
                 for(String taskId: taskIds){
+                    xslSchoolTaskMapper.cancelTaskDDL(taskId);
                     xslTaskMapper.cancelTaskDDL(taskId);
                 }
             }

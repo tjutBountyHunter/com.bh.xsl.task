@@ -38,4 +38,6 @@ public interface XslSchoolTaskMapper {
 
     List<String> selectTaskIdByLessThanSchoolId(Integer id);
 
+    int cancelTaskDDL(String taskId);
+
 }
