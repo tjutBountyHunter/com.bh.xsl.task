@@ -1,7 +1,9 @@
 package service;
 
+import java.math.BigDecimal;
+
 public interface TaskAccountService {
     int totalTask();
-    int totalMoney();
+    BigDecimal totalMoney();
     int totalDoneTask();
 }

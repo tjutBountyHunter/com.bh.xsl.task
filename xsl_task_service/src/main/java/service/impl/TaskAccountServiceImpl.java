@@ -5,22 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.TaskAccountService;
 
+import java.math.BigDecimal;
+
 @Service
 public class TaskAccountServiceImpl implements TaskAccountService {
-@Autowired
-private XslTaskMapper xslTaskMapper;
+    @Autowired
+    private XslTaskMapper xslTaskMapper;
     @Override
     public int totalTask() {
-      try {
-          return xslTaskMapper.totalTask();
-      }
-      catch (Exception e){
-          throw  new RuntimeException(e);
-      }
+        try {
+            return xslTaskMapper.totalTask();
+        }
+        catch (Exception e){
+            throw  new RuntimeException(e);
+        }
     }
 
     @Override
-    public int totalMoney() {
+    public BigDecimal totalMoney() {
 
         try {
             return xslTaskMapper.totalMoney();

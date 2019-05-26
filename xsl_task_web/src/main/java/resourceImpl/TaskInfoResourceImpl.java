@@ -15,6 +15,7 @@ import vo.*;
 import xsl.pojo.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
 @Controller
 public class TaskInfoResourceImpl implements TaskInfoResource {
 	@Autowired
-	private TaskAccountService taskAccount;
+	private TaskAccountService taskAccountService;
 	@Autowired
 	private XslTaskMapper xslTaskMapper;
 	@Autowired
@@ -280,16 +281,16 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 
 	@Override
 	public int totalTask() {
-		return taskAccount.totalTask();
+		return taskAccountService.totalTask();
 	}
 
 	@Override
-	public int totalMoney() {
-		return taskAccount.totalMoney();
+	public BigDecimal totalMoney() {
+		return taskAccountService.totalMoney();
 	}
 
 	@Override
 	public int totalDoneTask() {
-		return taskAccount.totalDoneTask();
+		return taskAccountService.totalDoneTask();
 	}
 }

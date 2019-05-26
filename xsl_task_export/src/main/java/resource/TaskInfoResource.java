@@ -4,6 +4,8 @@ import vo.TaskInfoListReqVo;
 import vo.TaskInfoListResVo;
 import vo.TaskInfoResVo;
 
+import java.math.BigDecimal;
+
 public interface TaskInfoResource {
 	/**
 	 * 初始化任务大厅数据
@@ -33,7 +35,7 @@ public interface TaskInfoResource {
 	 * 所有金额
 	 * @return int
 	 */
-	int totalMoney();
+	BigDecimal totalMoney();
 	/**
 	 * 所有完成任务数
 	 * @return int

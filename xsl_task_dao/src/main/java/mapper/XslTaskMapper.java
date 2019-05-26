@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import xsl.pojo.XslTask;
 import xsl.pojo.XslTaskExample;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface XslTaskMapper {
@@ -37,7 +38,7 @@ public interface XslTaskMapper {
 
     int totalTask();
 
-    int totalMoney();
+    BigDecimal totalMoney();
 
     int totalDoneTask();
 }
