@@ -1,16 +1,11 @@
 package resourceImpl;
 
+import com.xsl.user.UserInfoResouce;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import resource.UserInfoResouce;
-import resource.UserResource;
-import vo.UserReqVo;
-import vo.XslUserRegister;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
 //
@@ -18,7 +13,6 @@ import java.util.*;
 @ContextConfiguration({"classpath:spring/applicationContext-*.xml"})//spring与mybatis整合的配置文件
 public class tes {
     private UserInfoResouce userInfoResource;
-
     @Test
     public void test() throws IOException {
 
