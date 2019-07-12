@@ -1,6 +1,7 @@
 package mapper;
 
 import org.apache.ibatis.annotations.Param;
+import vo.SendAndRecTaskReqVo;
 import xsl.pojo.XslTask;
 import xsl.pojo.XslTaskExample;
 
@@ -41,4 +42,6 @@ public interface XslTaskMapper {
     BigDecimal totalMoney();
 
     int totalDoneTask();
+
+    List<XslTask> selectBySendId(SendAndRecTaskReqVo sendAndRecTaskReqVo);
 }

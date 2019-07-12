@@ -157,7 +157,20 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <select id="selectByRecId"  parameterType="vo.SendAndRecTaskReqVo"
+          resultType="java.lang.String">
+    select
+    taskId
+    from
+    xsl_hunter_task
+    WHERE
+    hunterId = #{hunterid,jdbcType=VARCHAR}
+    <if test="state != null" >
+      and taskState = #{state,jdbcType=TINYINT}
+    </if>
+    order by updateDate DESC
+  </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update xsl_hunter_task
     <set>
       <if test="record.id != null">
