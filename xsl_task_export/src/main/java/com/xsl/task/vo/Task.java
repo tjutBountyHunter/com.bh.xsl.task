@@ -1,9 +1,8 @@
 package vo;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Task implements Serializable {
+public class Task extends ResBaseVo {
     private Integer id;
 
     private Integer cid;

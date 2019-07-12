@@ -360,4 +360,15 @@
     from xsl_task
     where state in (3,4)
   </select>
+    <select id="selectBySendId" resultType="xsl.pojo.XslTask">
+      select
+      <include refid="Base_Column_List" />
+      from xsl_task
+      WHERE
+      sendId = #{masterid,jdbcType=VARCHAR}
+      <if test="state != null" >
+        and state = #{state,jdbcType=TINYINT}
+      </if>
+      order by updateDate DESC
+    </select>
 </mapper>
