@@ -1,6 +1,7 @@
 package mapper;
 
 import org.apache.ibatis.annotations.Param;
+import vo.SendAndRecTaskReqVo;
 import xsl.pojo.XslHunterTask;
 import xsl.pojo.XslHunterTaskExample;
 
@@ -28,4 +29,6 @@ public interface XslHunterTaskMapper {
     int updateByPrimaryKeySelective(XslHunterTask record);
 
     int updateByPrimaryKey(XslHunterTask record);
+
+    List<String> selectByRecId(SendAndRecTaskReqVo sendAndRecTaskReqVo);
 }

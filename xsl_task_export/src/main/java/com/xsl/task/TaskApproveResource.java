@@ -10,5 +10,4 @@ public interface TaskApproveResource {
 
 	boolean approve(Task task);
 
-
 }

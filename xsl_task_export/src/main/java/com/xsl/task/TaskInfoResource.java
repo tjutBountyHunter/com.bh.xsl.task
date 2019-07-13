@@ -1,12 +1,21 @@
 package resource;
 
-import vo.TaskInfoListReqVo;
-import vo.TaskInfoListResVo;
-import vo.TaskInfoResVo;
+import vo.*;
 
 import java.math.BigDecimal;
 
 public interface TaskInfoResource {
+
+	/**
+	 * 分页展示猎人种类
+	 *
+	 * @param tagName
+	 * @param type
+	 * @param rows
+	 * @return
+	 */
+	ResBaseVo UpCategoryHunter(String tagName, Integer type, Integer rows);
+
 	/**
 	 * 初始化任务大厅数据
 	 * @return
@@ -25,6 +34,20 @@ public interface TaskInfoResource {
 	 * @return
 	 */
 	TaskInfoResVo taskInfo(String taskId);
+
+	/**
+	 * 获取已发任务
+	 * @param sendAndRecTaskReqVo
+	 * @return
+	 */
+	Task querySendTask(SendAndRecTaskReqVo sendAndRecTaskReqVo);
+
+	/**
+	 * 获取已结任务
+	 * @param sendAndRecTaskReqVo
+	 * @return
+	 */
+	Task queryReceiveTask(SendAndRecTaskReqVo sendAndRecTaskReqVo);
 
 	/**
 	 * 所有任务数
