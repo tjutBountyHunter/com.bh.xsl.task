@@ -1,8 +1,8 @@
-package resource;
+package com.xsl.task;
 
-import vo.ErpTaskInfoReqVo;
-import vo.PageObject;
-import vo.Task;
+import com.xsl.task.vo.ErpTaskInfoReqVo;
+import com.xsl.task.vo.PageObject;
+import com.xsl.task.vo.Task;
 
 import java.util.List;
 

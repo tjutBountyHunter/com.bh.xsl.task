@@ -1,4 +1,4 @@
-package vo;
+package com.xsl.task.vo;
 
 public class ConfirmTaskReqVo extends ReqBaseVo{
 	private String taskId;

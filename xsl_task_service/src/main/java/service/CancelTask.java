@@ -1,6 +1,6 @@
 package service;
 
-import vo.ResBaseVo;
+import com.xsl.task.vo.ResBaseVo;
 
 public interface CancelTask {
 

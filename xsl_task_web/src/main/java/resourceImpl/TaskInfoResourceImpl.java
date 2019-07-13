@@ -1,6 +1,7 @@
 package resourceImpl;
 
 import com.github.pagehelper.PageHelper;
+import com.xsl.task.TaskInfoResource;
 import com.xsl.user.UserInfoResouce;
 import mapper.*;
 import org.springframework.beans.BeanUtils;
@@ -8,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import resource.TaskInfoResource;
 import service.HunterRecommend;
 import service.TaskAccountService;
-import vo.*;
+import com.xsl.task.vo.*;
+import vo.HunterVo;
+import vo.MasterVo;
+import vo.SchoolVo;
+import vo.UserVo;
 import xsl.pojo.*;
 
 import javax.annotation.Resource;
@@ -53,6 +57,10 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 
+	@Override
+	public ResBaseVo UpCategoryHunter(String tagName, Integer type, Integer rows) {
+		return null;
+	}
 
 	@Override
 	public TaskInfoListResVo initTaskInfo(TaskInfoListReqVo taskInfoListReqVo) {
@@ -277,6 +285,16 @@ public class TaskInfoResourceImpl implements TaskInfoResource {
 		}
 
 		return taskInfoResVo;
+	}
+
+	@Override
+	public Task querySendTask(SendAndRecTaskReqVo sendAndRecTaskReqVo) {
+		return null;
+	}
+
+	@Override
+	public Task queryReceiveTask(SendAndRecTaskReqVo sendAndRecTaskReqVo) {
+		return null;
 	}
 
 	@Override

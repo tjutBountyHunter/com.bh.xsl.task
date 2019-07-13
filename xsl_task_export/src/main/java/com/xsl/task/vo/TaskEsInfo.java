@@ -1,10 +1,7 @@
-package vo;
-
-import pojo.XslTag;
+package com.xsl.task.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 public class TaskEsInfo implements Serializable {
 	private Integer cid;

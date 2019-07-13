@@ -1,7 +1,7 @@
 package service;
 
-import util.XslResult;
-import vo.TagReqVo;
+import com.xsl.task.vo.TagReqVo;
+import xsl.pojo.XslResult;
 
 public interface TagService {
 

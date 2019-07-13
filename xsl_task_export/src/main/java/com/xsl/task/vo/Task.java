@@ -1,4 +1,4 @@
-package vo;
+package com.xsl.task.vo;
 import java.math.BigDecimal;
 import java.util.Date;
 

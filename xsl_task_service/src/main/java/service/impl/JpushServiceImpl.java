@@ -1,4 +1,4 @@
-package user.service.impl;
+package service.impl;
 
 
 import cn.jpush.api.JPushClient;
@@ -12,11 +12,10 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
-import com.xsl.user.enums.JpushTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import user.service.JpushService;
+import service.JpushService;
 import util.GsonSingle;
 import vo.JPushVo;
 
@@ -26,9 +25,6 @@ import javax.annotation.Resource;
 public class JpushServiceImpl implements JpushService {
 	@Resource
 	private JPushClient jedjpushClient;
-
-	@Resource
-	private JPushClient jedjpushClient_Zd;
 
 	private static final Logger LOG = LoggerFactory.getLogger(JpushServiceImpl.class);
 
@@ -45,15 +41,10 @@ public class JpushServiceImpl implements JpushService {
 		try {
 			PushPayload pushPayload = buildPushObject_all_registrationId_alertWithTitle(jPushVo.getRegistrationId(),jPushVo.getNotificationTitle(), jPushVo.getMsgTitle(), jPushVo.getMsgContent(), jPushVo.getExtrasparam());
 
-			if(JpushTypeEnum.XSL.getName().equals(source)){
-				jedjpushClient.sendPush(pushPayload);
-				result = 1;
-			}
 
-			if(JpushTypeEnum.GXZD.getName().equals(source)){
-				jedjpushClient_Zd.sendPush(pushPayload);
-				result = 1;
-			}
+		jedjpushClient.sendPush(pushPayload);
+		result = 1;
+
 
 		} catch (APIConnectionException e) {
 			e.printStackTrace();
@@ -76,15 +67,10 @@ public class JpushServiceImpl implements JpushService {
 		LOG.info("sendToAll: jPushVo:{}, source:{}", GsonSingle.getGson().toJson(jPushVo), source);
 		try {
 			PushPayload pushPayload = buildPushObject_android_and_ios(jPushVo.getNotificationTitle(), jPushVo.getMsgTitle(), jPushVo.getMsgContent(), jPushVo.getExtrasparam());
-			if("XSL".equals(source)){
-				jedjpushClient.sendPush(pushPayload);
-				result = 1;
-			}
 
-			if("ZD".equals(source)){
-				jedjpushClient_Zd.sendPush(pushPayload);
-				result = 1;
-			}
+		jedjpushClient.sendPush(pushPayload);
+		result = 1;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -3,7 +3,7 @@ package com.xsl.task.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TagResVo implements Serializable {
+public class Tag implements Serializable {
     private Integer id;
 
     private String tagid;

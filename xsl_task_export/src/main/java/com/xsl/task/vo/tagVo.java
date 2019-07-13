@@ -1,8 +1,8 @@
-package vo;
+package com.xsl.task.vo;
 
 import java.io.Serializable;
 
-public class TagVo implements Serializable {
+public class tagVo implements Serializable {
 	private String tagName;
 	private String tagid;
 

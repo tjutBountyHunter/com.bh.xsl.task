@@ -1,7 +1,7 @@
 package service;
 
-import vo.PageObject;
-import vo.OrderReqVo;
+import com.xsl.task.vo.PageObject;
+import com.xsl.task.vo.OrderReqVo;
 
 public interface XslOrderService {
 

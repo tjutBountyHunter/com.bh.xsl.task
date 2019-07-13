@@ -1,6 +1,6 @@
-package resource;
+package com.xsl.task;
 
-import vo.*;
+import com.xsl.task.vo.*;
 
 import java.math.BigDecimal;
 

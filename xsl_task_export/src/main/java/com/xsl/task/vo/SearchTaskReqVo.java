@@ -1,4 +1,4 @@
-package vo;
+package com.xsl.task.vo;
 
 public class SearchTaskReqVo {
 	private String schoolName;

@@ -1,11 +1,11 @@
 package resourceImpl;
 
+import com.xsl.task.OrderInfoResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import resource.OrderInfoResource;
 import service.XslOrderService;
-import vo.PageObject;
-import vo.OrderReqVo;
+import com.xsl.task.vo.PageObject;
+import com.xsl.task.vo.OrderReqVo;
 
 @Controller
 public class OrderInfoResourceImpl implements OrderInfoResource {

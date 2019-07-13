@@ -3,15 +3,12 @@ package service.impl;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import pojo.XslTask;
 import service.TaskMqService;
 import util.GsonSingle;
+import com.xsl.task.vo.TaskEsInfo;
+import com.xsl.task.vo.UpdateTaskVo;
 import vo.CreateOrderReqVo;
-import vo.TaskEsInfo;
-import vo.TaskInfo;
-import vo.UpdateTaskVo;
 
 import javax.annotation.Resource;
 import javax.jms.Destination;
