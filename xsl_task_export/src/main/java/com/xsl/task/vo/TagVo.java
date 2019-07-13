@@ -2,7 +2,7 @@ package com.xsl.task.vo;
 
 import java.io.Serializable;
 
-public class tagVo implements Serializable {
+public class TagVo implements Serializable {
 	private String tagName;
 	private String tagid;
 

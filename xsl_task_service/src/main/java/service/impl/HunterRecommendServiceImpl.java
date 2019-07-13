@@ -6,12 +6,12 @@ import mapper.XslTaskTagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xsl.pojo.*;
-import service.HunterRecommend;
+import service.HunterRecommendService;
 
 import java.util.*;
 
 @Service
-public class HunterRecommendImpl implements HunterRecommend {
+public class HunterRecommendServiceImpl implements HunterRecommendService {
 
     @Autowired
 	XslTaskTagMapper xslTaskTagMapper;

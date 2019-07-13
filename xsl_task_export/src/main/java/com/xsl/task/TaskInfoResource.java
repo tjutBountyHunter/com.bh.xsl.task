@@ -2,8 +2,6 @@ package com.xsl.task;
 
 import com.xsl.task.vo.*;
 
-import java.math.BigDecimal;
-
 public interface TaskInfoResource {
 
 	/**
@@ -40,29 +38,36 @@ public interface TaskInfoResource {
 	 * @param sendAndRecTaskReqVo
 	 * @return
 	 */
-	Task querySendTask(SendAndRecTaskReqVo sendAndRecTaskReqVo);
+	TaskListResVo querySendTask(SendAndRecTaskReqVo sendAndRecTaskReqVo);
 
 	/**
 	 * 获取已结任务
 	 * @param sendAndRecTaskReqVo
 	 * @return
 	 */
-	Task queryReceiveTask(SendAndRecTaskReqVo sendAndRecTaskReqVo);
+	TaskListResVo queryReceiveTask(SendAndRecTaskReqVo sendAndRecTaskReqVo);
 
 	/**
 	 * 所有任务数
 	 * @return int
 	 */
-	int totalTask();
+	TaskConstantInfoResVo totalTask();
 	/**
 	 * 所有金额
 	 * @return int
 	 */
-	BigDecimal totalMoney();
+	TaskConstantInfoResVo totalMoney();
 	/**
 	 * 所有完成任务数
 	 * @return int
 	 */
-	int totalDoneTask();
+	TaskConstantInfoResVo totalDoneTask();
+
+	/**
+	 * 通过masterId获取雇主信息
+	 * @param masterId
+	 * @return
+	 */
+	TaskListResVo getTaskByMasterId(String masterId);
 
 }

@@ -1,9 +1,8 @@
 package com.xsl.task.vo;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TagResVo implements Serializable {
+public class TagResVo extends ResBaseVo {
     private Integer id;
 
     private String tagid;

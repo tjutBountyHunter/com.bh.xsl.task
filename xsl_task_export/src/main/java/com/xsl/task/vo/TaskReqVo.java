@@ -1,7 +1,6 @@
 package com.xsl.task.vo;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 public class TaskReqVo extends ReqBaseVo{
@@ -9,12 +8,12 @@ public class TaskReqVo extends ReqBaseVo{
 	private String taskTitle;
 	private String content;
 	private List<ImageVo> images;
-	private List<tagVo> tags;
+	private List<TagVo> tags;
 	private Boolean isRecommend;
 	private String masterId;
 	private BigDecimal money;
-	private Date createDate;
-	private Date deadLineDate;
+	private String createDate;
+	private String deadLineDate;
 
 	public String getSourceType() {
 		return sourceType;
@@ -56,11 +55,11 @@ public class TaskReqVo extends ReqBaseVo{
 		this.images = images;
 	}
 
-	public List<tagVo> getTags() {
+	public List<TagVo> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<tagVo> tags) {
+	public void setTags(List<TagVo> tags) {
 		this.tags = tags;
 	}
 
@@ -88,19 +87,19 @@ public class TaskReqVo extends ReqBaseVo{
 		this.money = money;
 	}
 
-	public Date getCreateDate() {
+	public String getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
 
-	public Date getDeadLineDate() {
+	public String getDeadLineDate() {
 		return deadLineDate;
 	}
 
-	public void setDeadLineDate(Date deadLineDate) {
+	public void setDeadLineDate(String deadLineDate) {
 		this.deadLineDate = deadLineDate;
 	}
 }

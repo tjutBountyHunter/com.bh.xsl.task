@@ -1,441 +1,72 @@
 package resourceImpl;
 
 import com.xsl.task.TaskOperateResource;
-import com.xsl.user.JpushResource;
-import com.xsl.user.UserInfoResouce;
-import mapper.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import service.CancelTask;
-import service.HunterRecommend;
-import service.impl.searchTaskMQImpl;
-import service.searchTaskMQ;
-import util.*;
 import com.xsl.task.vo.*;
-import com.xsl.task.vo.ResBaseVo;
-import vo.JPushReqVo;
-import vo.SchoolVo;
-import vo.SchoolinfoVo;
-import vo.UserVo;
-import xsl.pojo.*;
-import xsl.pojo.XslUser;
-
-import javax.annotation.Resource;
-import javax.jms.Destination;
-import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import service.CancelTaskService;
+import service.TaskOperateService;
 
 @Controller
 public class TaskOperateResourceImpl implements TaskOperateResource {
-	@Autowired
-	private CancelTask cancelTask;
-	@Autowired
-	private XslTaskMapper xslTaskMapper;
-	@Autowired
-	private XslTaskTagMapper xslTaskTagMapper;
-	@Autowired
-	private XslTaskFileMapper xslTaskFileMapper;
-	@Autowired
-	private XslTagMapper xslTagMapper;
-	@Autowired
-	private XslUserMapper xslUserMapper;
-	@Autowired
-	private XslNetworkMapper xslNetworkMapper;
-	@Autowired
-	private XslHunterMapper xslHunterMapper;
-	@Autowired
-	private XslHunterTaskMapper xslHunterTaskMapper;
-	@Autowired
-	private XslSchoolTaskMapper xslSchoolTaskMapper;
 
 	@Autowired
-	private HunterRecommend hunterRecommend;
-	@Resource
-	private JpushResource jpushResource;
-	@Resource
-	private UserInfoResouce userInfoResouce;
+	private TaskOperateService taskOperateService;
 
 	@Autowired
-	private ThreadPoolTaskExecutor taskExecutor;
-
-	@Autowired
-	private JmsTemplate jmsTemplate;
-	@Resource
-	private Destination createOrder;
-
+	private CancelTaskService cancelTaskService;
 
 	@Override
 	public ResBaseVo sendTask(TaskReqVo taskReqVo) {
 		try {
-			if(StringUtils.isEmpty(taskReqVo.getContent())){
-				return ResBaseVo.build(400, "参数错误");
-			}
-			//文字扫描屏蔽
-			Map<String, String> map = new HashMap<>(1);
-			map.put("sentence", taskReqVo.getContent());
-			String result = HttpClientUtil.doGet("http://47.93.19.164:8080/xsl-search-service/search/wordcheck", map);
-			XslResultOk fcResult = XslResultOk.format(result);
-			List<String> data = (List<String>) fcResult.getData();
-			if (data != null && data.size() > 0) {
-				return ResBaseVo.build(400, "悬赏任务不合法");
-			}
-
-
-			//设置任务分类--默认全种类
-			XslTask xslTask = new XslTask();
-			xslTask.setCid(1);
-			xslTask.setSendid(taskReqVo.getMasterId());
-			xslTask.setTaskid(UUIDUtil.getUUID());
-			xslTask.setContent(taskReqVo.getContent());
-			xslTask.setMoney(taskReqVo.getMoney());
-			xslTask.setTasktitle(taskReqVo.getTaskTitle());
-			xslTask.setCreatedate(taskReqVo.getCreateDate());
-			xslTask.setUpdatedate(taskReqVo.getCreateDate());
-			xslTask.setDeadline(taskReqVo.getDeadLineDate());
-			xslTask.setSourcetype(taskReqVo.getSourceType());
-			//未启动推荐
-			xslTask.setState((byte) 0);
-
-			if(taskReqVo.getIsRecommend() == null){
-				return ResBaseVo.build(400, "参数错误");
-			}
-
-			//启动推荐
-			if(taskReqVo.getIsRecommend()){
-				xslTask.setState((byte) 1);
-			}
-
-			//记录任务
-			int insert = xslTaskMapper.insertSelective(xslTask);
-
-			if(insert < 1){
-				return ResBaseVo.build(500, "服务器异常");
-			}
-
-			//发送mq到搜索系统
-			searchTaskMQ searchTaskMQ = new searchTaskMQImpl();
-			searchTaskMQ.addTaskJson(JsonUtils.objectToJson(xslTask));
-
-			ResBaseVo xslResultTag = addTaskTag(taskReqVo, xslTask.getTaskid());
-			ResBaseVo xslResultFile = addTaskFile(taskReqVo, xslTask.getTaskid());
-			ResBaseVo xslResultSchool = addSchoolTask(taskReqVo, xslTask.getTaskid());
-
-			if(xslResultFile.isOK() && xslResultTag.isOK() && xslResultSchool.isOK()){
-				//异步启动推荐
-				if(taskReqVo.getIsRecommend()){
-					taskExecutor.execute(() -> hunterRecommendAndPush(xslTask));
-				}
-
-				//异步更新雇主信息
-
-
-				return ResBaseVo.ok(xslTask.getTaskid());
-			}
-
-			return ResBaseVo.build(500, "服务器异常");
+			return taskOperateService.sendTask(taskReqVo);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return ResBaseVo.build(500, "服务器异常");
+			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
 	public ResBaseVo receiveTask(RecTaskReqVo recTaskReqVo) {
-		String hunterid = recTaskReqVo.getHunterid();
-		String taskid = recTaskReqVo.getTaskId();
-		//1.判断用户状态
-		UserVo userInfo = userInfoResouce.getUserInfoByHunterId(hunterid);
-		if(userInfo == null){
-			return ResBaseVo.build(403, "您无权操作");
+		try {
+			return taskOperateService.receiveTask(recTaskReqVo);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		if(1 != userInfo.getState()){
-			return ResBaseVo.build(403, "您无权操作");
-		}
-
-		//2.获取任务信息
-		XslTaskExample xslTaskExample = new XslTaskExample();
-		XslTaskExample.Criteria criteria = xslTaskExample.createCriteria();
-		criteria.andTaskidEqualTo(taskid);
-		List<XslTask> taskList = xslTaskMapper.selectByExample(xslTaskExample);
-		if(taskList == null || taskList.size() < 1){
-			return ResBaseVo.build(500, "任务信息异常");
-		}
-
-		XslTask xslTask = taskList.get(0);
-
-		String masterid = userInfo.getMasterid();
-
-		if(masterid.equals(xslTask.getSendid())){
-			return ResBaseVo.build(403, "请不要接自己发送的任务");
-		}
-		Byte state = xslTask.getState();
-		if(!(0 == state || 1 == state)){
-			return ResBaseVo.build(403, "任务已经被抢走");
-		}
-
-		xslTask.setState((byte) 2);
-		if(state == 0){
-			criteria.andStateEqualTo((byte) 0);
-		}
-		if(state == 1){
-			criteria.andStateEqualTo((byte) 1);
-		}
-		int i = xslTaskMapper.updateByExampleSelective(xslTask, xslTaskExample);
-
-		if(i < 1){
-			return ResBaseVo.build(403, "任务接收失败");
-		}
-
-		XslHunterTask xslHunterTask = new XslHunterTask();
-		xslHunterTask.setHunterid(hunterid);
-		xslHunterTask.setTaskid(recTaskReqVo.getTaskId());
-		xslHunterTask.setTaskstate((byte) 2);
-		int count = xslHunterTaskMapper.insertSelective(xslHunterTask);
-		if(count < 1){
-			return ResBaseVo.build(403, "请不要接自己发送的任务");
-		}
-
-		//异步建立用户关联
-		//异步更新猎人信息
-		//异步生成订单
-		jmsTemplate.send(createOrder, (session) -> session.createTextMessage("test"));
-
-
-		//异步给雇主发推送
-
-		return ResBaseVo.ok();
 	}
 
 	@Override
 	public ResBaseVo confirmTask(ConfirmTaskReqVo confirmTaskReqVo) {
-		String taskId = confirmTaskReqVo.getTaskId();
-		String hunterId = confirmTaskReqVo.getHunterid();
-		//检测任务状态
-		XslTaskExample xslTaskExample = new XslTaskExample();
-		xslTaskExample.createCriteria().andTaskidEqualTo(taskId);
-		List<XslTask> taskList = xslTaskMapper.selectByExample(xslTaskExample);
-
-		if(taskList == null || taskList.size() == 0){
-			return ResBaseVo.build(403, "任务不存在");
+		try {
+			return taskOperateService.confirmTask(confirmTaskReqVo);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		XslTask xslTask = taskList.get(0);
-		if(2 != xslTask.getState()){
-			return ResBaseVo.build(403, "任务状态错误");
+	}
+
+	@Override
+	public SearchTaskInfoListResVo searchTask(SearchTaskReqVo searchTaskReqVo) {
+		try {
+			return taskOperateService.searchTask(searchTaskReqVo);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-
-		//检测连接状态
-		XslHunterTaskExample xslHunterTaskExample = new XslHunterTaskExample();
-		xslHunterTaskExample.createCriteria().andHunteridEqualTo(hunterId).andTaskidEqualTo(taskId);
-		List<XslHunterTask> xslHunterTasks = xslHunterTaskMapper.selectByExample(xslHunterTaskExample);
-
-		if(xslHunterTasks == null || xslHunterTasks.size() == 0){
-			return ResBaseVo.build(403, "猎人信息有误");
-		}
-		XslHunterTask xslHunterTask = xslHunterTasks.get(0);
-		if(2 != xslHunterTask.getTaskstate()){
-			return ResBaseVo.build(403, "任务状态有误");
-		}
-
-		//更新任务状态
-		xslTask.setState((byte) 4);
-		int i = xslTaskMapper.updateByExampleSelective(xslTask, xslTaskExample);
-		if(i < 1){
-			return ResBaseVo.build(500, "服务器异常");
-		}
-
-		//更新连接状态
-		xslHunterTask.setTaskstate((byte) 2);
-		int i1 = xslHunterTaskMapper.updateByExampleSelective(xslHunterTask, xslHunterTaskExample);
-		if(i1 < 1){
-			return ResBaseVo.build(500, "服务器异常");
-		}
-		//增加经验
-
-
-		return ResBaseVo.ok();
 	}
 
 	@Override
 	public ResBaseVo calcelTaskDDL() {
 		try {
-			return  cancelTask.cancelTaskDDL();
-		}catch (Exception e){
+			return cancelTaskService.cancelTaskDDL();
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private ResBaseVo hunterRecommendAndPush(XslTask xslTask){
 
-		List<String> recommend;
-		//猎人标签推优算法
-		recommend = hunterRecommend.recommend(xslTask.getTaskid(), 10);
-
-		if(recommend == null || recommend.size() == 0){
-			//血缘关系推荐算法启动
-			Set<String> hunters = networkHunter(xslTask);
-
-			recommend.addAll(hunters);
-
-			if(hunters.size() == 0){
-				recommend = getGoodHunter();
-			}
-
-		}
-
-		JPushReqVo jPushVo = new JPushReqVo();
-		jPushVo.setMsgTitle("悬赏任务推荐");
-		jPushVo.setMsgContent("有一个适合你的悬赏任务");
-		jPushVo.setNotificationTitle("悬赏任务推荐");
-		jPushVo.setExtrasparam("");
-
-		for (String hunterId : recommend){
-			//查电话号码
-			XslUserExample xslUserExample = new XslUserExample();
-
-			xslUserExample.createCriteria().andHunteridEqualTo(hunterId);
-			List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
-			String phone = xslUsers.get(0).getPhone();
-			jPushVo.setPhone(phone);
-			//发推送
-			jpushResource.sendByPhone(jPushVo);
-		}
-
-		return ResBaseVo.ok();
-	}
-
-
-	private ResBaseVo addTaskFile(TaskReqVo taskReqVo, String taskId) {
+	public ResBaseVo cancelTask(String taskId) {
 		try {
-			List<ImageVo> images = taskReqVo.getImages();
-
-			if(images.size() < 1){
-				return ResBaseVo.ok();
-			}
-
-			List<XslTaskFile> xslTaskFiles = new ArrayList<>();
-			for (ImageVo imageVo : images){
-				XslTaskFile xslTaskFile = new XslTaskFile();
-				xslTaskFile.setTaskid(taskId);
-				xslTaskFile.setFileid(imageVo.getImageId());
-				xslTaskFiles.add(xslTaskFile);
-			}
-
-			int i = xslTaskFileMapper.insertSelectiveBatch(xslTaskFiles);
-			if(i < xslTaskFiles.size()){
-				throw new RuntimeException();
-			}
-
+			return taskOperateService.cancelTask(taskId);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return ResBaseVo.build(500, "服务器异常");
+			throw new RuntimeException(e);
 		}
-
-		return ResBaseVo.ok();
-
-
-	}
-
-	private ResBaseVo addSchoolTask(TaskReqVo taskReqVo, String taskid) {
-		UserVo user = userInfoResouce.getUserInfoMasterId(taskReqVo.getMasterId());
-		String schoolinfo = user.getSchoolinfo();
-		SchoolinfoVo schoolInfo = userInfoResouce.getSchoolInfo(schoolinfo);
-		String schoolName = schoolInfo.getSchool();
-		SchoolVo school = userInfoResouce.getSchoolByName(schoolName);
-
-		XslSchoolTask xslSchoolTask = new XslSchoolTask();
-		xslSchoolTask.setSchoolid(school.getId());
-		xslSchoolTask.setTaskid(taskid);
-
-		int insert = xslSchoolTaskMapper.insertSelective(xslSchoolTask);
-
-		if(insert < 1){
-			throw new RuntimeException("任务学校信息关联异常");
-		}
-
-		return ResBaseVo.ok();
-	}
-
-	/**
-	 * 添加任务标签关系数据
-	 */
-	private ResBaseVo addTaskTag(TaskReqVo taskReqVo, String taskId) {
-		try {
-			List<tagVo> tags = taskReqVo.getTags();
-
-			if(tags.size() < 1){
-				return ResBaseVo.ok();
-			}
-
-			List<XslTaskTag> xslTaskTags = new ArrayList<>();
-			for (com.xsl.task.vo.tagVo tagVo : tags){
-				XslTaskTag xslTaskTag = new XslTaskTag();
-				xslTaskTag.setTaskid(taskId);
-				xslTaskTag.setTagid(tagVo.getTagid());
-				xslTaskTags.add(xslTaskTag);
-			}
-
-			int i = xslTaskTagMapper.insertSelectiveBatch(xslTaskTags);
-			if(i < xslTaskTags.size()){
-				throw new RuntimeException();
-			}
-
-			//异步去处理标签使用的次数
-			taskExecutor.execute(() -> updateTagNum(taskReqVo.getTags()));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResBaseVo.build(500, "服务器异常");
-		}
-
-		return ResBaseVo.ok();
-	}
-
-	private ResBaseVo updateTagNum(List<tagVo> tags){
-		List<String> tagIds = new ArrayList<>(tags.size());
-		for (com.xsl.task.vo.tagVo tagVo : tags){
-			tagIds.add(tagVo.getTagid());
-		}
-
-		XslTagExample xslTagExample = new XslTagExample();
-		XslTagExample.Criteria criteria = xslTagExample.createCriteria();
-		criteria.andTagidIn(tagIds);
-		int i = xslTagMapper.updateUseNumByExample(xslTagExample);
-		if(i < 1){
-			throw new RuntimeException();
-		}
-		return ResBaseVo.ok();
-	}
-
-	private Set<String> networkHunter(XslTask xslTask) {
-		//1.获取用户ID
-		XslUserExample xslUserExample = new XslUserExample();
-		String masterId = xslTask.getSendid();
-		xslUserExample.createCriteria().andMasteridEqualTo(masterId);
-		List<XslUser> xslUsers = xslUserMapper.selectByExample(xslUserExample);
-		String userId = xslUsers.get(0).getUserid();
-
-		//2.符合条件的用户
-		Set<String> hunterIds = new HashSet<>();
-		XslNetworkExample xslNetworkExample = new XslNetworkExample();
-		xslNetworkExample.createCriteria().andAidEqualTo(userId);
-		List<XslNetwork> xslNetworkAs = xslNetworkMapper.selectByExample(xslNetworkExample);
-		for(XslNetwork xslNetworkA : xslNetworkAs){
-			hunterIds.add(xslNetworkA.getBid());
-		}
-
-		xslNetworkExample.createCriteria().andBidEqualTo(userId);
-		List<XslNetwork> xslNetworkBs = xslNetworkMapper.selectByExample(xslNetworkExample);
-
-		for(XslNetwork xslNetworkB : xslNetworkBs){
-			hunterIds.add(xslNetworkB.getAid());
-		}
-
-		return hunterIds;
-	}
-
-	private List<String> getGoodHunter() {
-		return xslHunterMapper.selectGoodHunter();
 	}
 }

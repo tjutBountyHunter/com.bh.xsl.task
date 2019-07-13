@@ -1,6 +1,8 @@
 package com.xsl.task.vo;
 
-public class SearchTaskReqVo {
+import java.io.Serializable;
+
+public class SearchTaskReqVo implements Serializable {
 	private String schoolName;
 	private String keyword;
 	private int size;

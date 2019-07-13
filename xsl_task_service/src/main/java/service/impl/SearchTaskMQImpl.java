@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import javax.jms.*;
 
 @Service
-public class searchTaskMQImpl implements searchTaskMQ {
+public class SearchTaskMQImpl implements searchTaskMQ {
     @Resource(name = "jmsTemplate")
     private JmsTemplate jmsTemplate;
 
