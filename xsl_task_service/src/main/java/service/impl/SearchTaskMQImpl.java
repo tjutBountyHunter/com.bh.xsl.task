@@ -3,13 +3,13 @@ package service.impl;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
-import service.searchTaskMQ;
+import service.SearchTaskMQ;
 
 import javax.annotation.Resource;
 import javax.jms.*;
 
 @Service
-public class SearchTaskMQImpl implements searchTaskMQ {
+public class SearchTaskMQImpl implements SearchTaskMQ {
     @Resource(name = "jmsTemplate")
     private JmsTemplate jmsTemplate;
 

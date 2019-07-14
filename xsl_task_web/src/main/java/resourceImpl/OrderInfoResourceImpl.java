@@ -9,9 +9,15 @@ import com.xsl.task.vo.OrderReqVo;
 
 @Controller
 public class OrderInfoResourceImpl implements OrderInfoResource {
+
     @Autowired
     private XslOrderService xslOrderService;
+
     public PageObject getList(OrderReqVo orderReqVo) {
-        return xslOrderService.selectOrderAll(orderReqVo);
+        try {
+            return xslOrderService.selectOrderAll(orderReqVo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

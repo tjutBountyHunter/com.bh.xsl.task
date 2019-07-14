@@ -1,6 +1,6 @@
 package util;
 
-public class byte2hex {
+public class Byte2HexUtil {
     public static String byte2hex(byte[] b) {
         StringBuffer sb = new StringBuffer();
         String stmp = "";

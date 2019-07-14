@@ -1,31 +1,22 @@
 package resourceImpl;
 
-import com.xsl.task.ErpTaskInfoResource;
 import com.xsl.task.TaskApproveResource;
-import mapper.XslTaskMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import com.xsl.task.vo.ErpTaskInfoReqVo;
 import com.xsl.task.vo.PageObject;
 import com.xsl.task.vo.Task;
-import xsl.pojo.XslTask;
-
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import service.ErpTaskInfoService;
+import service.TaskApproveService;
 
 @Controller
 public class TaskApproveResourceImpl implements TaskApproveResource {
 
 	@Autowired
-	private ErpTaskInfoResource erpTaskInfoResource;
-	@Resource
-	private XslTaskMapper xslTaskMapper;
+	private ErpTaskInfoService erpTaskInfoService;
 
-	/* 任务服务 */
-	Logger logger = LoggerFactory.getLogger(TaskApproveResourceImpl.class);
-
+	@Autowired
+	private TaskApproveService taskApproveService;
 	/**
 	 * 任务审核
 	 * ①审核成功：state：0（待接收）
@@ -35,21 +26,11 @@ public class TaskApproveResourceImpl implements TaskApproveResource {
 	 */
 	@Override
 	public boolean approve(Task task) {
-		String  tag = "任务审核";
-		try{
-			//-1代表冻结的意思，进行逻辑删除
-			XslTask xslTask = new XslTask();
-			BeanUtils.copyProperties(task, xslTask);
-
-			int n = xslTaskMapper.updateByPrimaryKeySelective(xslTask);
-			if( n < 0 ) {
-				logger.error(tag + "失败!");
-				return false;
-			}
-		}catch (Exception e){
-			logger.error(tag + "异常警报 :" + e.getMessage());
+		try {
+			return taskApproveService.approve(task);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		return true;
 	}
 
 	/**
@@ -58,6 +39,11 @@ public class TaskApproveResourceImpl implements TaskApproveResource {
 	 */
 	@Override
 	public PageObject selectTaskApprove(ErpTaskInfoReqVo erpTaskInfoReqVo) {
-		return erpTaskInfoResource.selectTaskAll(erpTaskInfoReqVo);//只查询待接收的任务
+		try {
+			//只查询待接收的任务
+			return erpTaskInfoService.selectTaskAll(erpTaskInfoReqVo);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

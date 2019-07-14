@@ -20,9 +20,13 @@ public class MasterInfo implements Serializable {
 
 	private Date lastaccdate;
 
+	private Boolean state;
+
 	private String txUrl;
 
 	private String phone;
+
+	private String name;
 
 	public String getUserid() {
 		return userid;
@@ -102,5 +106,21 @@ public class MasterInfo implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public Boolean getState() {
+		return state;
+	}
+
+	public void setState(Boolean state) {
+		this.state = state;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

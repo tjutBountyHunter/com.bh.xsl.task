@@ -2,58 +2,105 @@ package resourceImpl;
 
 import com.xsl.task.TaskInfoResource;
 import com.xsl.task.vo.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import service.TaskInfoService;
 
 @Controller
 public class TaskInfoResourceImpl implements TaskInfoResource {
 
+	@Autowired
+	private TaskInfoService taskInfoService;
+
+
 	@Override
 	public ResBaseVo UpCategoryHunter(String tagName, Integer type, Integer rows) {
-		return null;
+		try {
+			return taskInfoService.UpCategoryHunter(tagName,type,rows);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskInfoListResVo initTaskInfo(TaskInfoListReqVo taskInfoListReqVo) {
-		return null;
+		try {
+			return taskInfoService.initTaskInfo(taskInfoListReqVo);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskInfoListResVo reloadTaskInfo(TaskInfoListReqVo taskInfoListReqVo) {
-		return null;
+		try {
+			return taskInfoService.reloadTaskInfo(taskInfoListReqVo);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskInfoResVo taskInfo(String taskId) {
-		return null;
+		try {
+			return taskInfoService.taskInfo(taskId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskListResVo querySendTask(SendAndRecTaskReqVo sendAndRecTaskReqVo) {
-		return null;
+
+		try {
+			return taskInfoService.querySendTask(sendAndRecTaskReqVo);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskListResVo queryReceiveTask(SendAndRecTaskReqVo sendAndRecTaskReqVo) {
-		return null;
+		try {
+			return taskInfoService.queryReceiveTask(sendAndRecTaskReqVo);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskConstantInfoResVo totalTask() {
-		return null;
+		try {
+			return taskInfoService.totalTask();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskConstantInfoResVo totalMoney() {
-		return null;
+		try {
+			return taskInfoService.totalMoney();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskConstantInfoResVo totalDoneTask() {
-		return null;
+		try {
+			return taskInfoService.totalDoneTask();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public TaskListResVo getTaskByMasterId(String masterId) {
-		return null;
+		try {
+			return taskInfoService.getTaskByMasterId(masterId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

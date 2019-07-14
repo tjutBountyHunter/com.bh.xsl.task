@@ -26,6 +26,8 @@ public class HunterInfo implements Serializable {
 
 	private String phone;
 
+	private String name;
+
 	public String getHunterid() {
 		return hunterid;
 	}
@@ -112,5 +114,13 @@ public class HunterInfo implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

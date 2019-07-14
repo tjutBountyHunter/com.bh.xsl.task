@@ -2,6 +2,7 @@ package service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.xsl.search.export.SearchResource;
+import com.xsl.search.export.vo.TaskInfoVo;
 import com.xsl.search.export.vo.TaskSearchReqVo;
 import com.xsl.task.vo.*;
 import com.xsl.task.vo.ResBaseVo;
@@ -9,7 +10,6 @@ import com.xsl.task.vo.TagVo;
 import com.xsl.user.LevelResource;
 import com.xsl.user.UserInfoResouce;
 import com.xsl.user.vo.*;
-import com.xsl.search.export.vo.TaskInfoVo;
 import mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +23,10 @@ import service.*;
 import util.*;
 import vo.CreateOrderReqVo;
 import vo.JPushVo;
-import vo.tagVo;
+import vo.XslTagVo;
 import xsl.pojo.*;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -78,7 +77,7 @@ public class TaskOperateServiceImpl implements TaskOperateService {
     private ThreadPoolTaskExecutor taskExecutor;
 
     @Autowired
-    private CancelTaskService cancelTaskService;
+    private CommonUseService commonUseService;
 
     @Resource
     private SearchResource searchResource;
@@ -350,37 +349,18 @@ public class TaskOperateServiceImpl implements TaskOperateService {
 
             //任务终结处理订单
         }
-        HunterInfo hunterInfo = getHunterInfo(hunterId);
+        HunterInfo hunterInfo = commonUseService.getHunterInfo(hunterId);
 
         //异步更新搜索库状态
         UpdateTaskVo updateTaskVo = new UpdateTaskVo();
         updateTaskVo.setState(nowState);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        updateTaskVo.setUpdatedate(sdf.format(new Date()));
+        updateTaskVo.setUpdatedate(DateUtils.getDateTimeToString(new Date()));
         updateTaskVo.setTaskId(xslTask.getTaskid());
         taskExecutor.execute(()-> taskMqService.updateEsTask(updateTaskVo));
 
         return ResBaseVo.ok(hunterInfo);
     }
 
-    private HunterInfo getHunterInfo(String hunterId) {
-        //获取猎人信息
-        HunterVo hunter = userInfoResouce.getHunterInfo(hunterId);
-        HunterInfo hunterInfo = new HunterInfo();
-        BeanUtils.copyProperties(hunter, hunterInfo);
-        UserVo user = userInfoResouce.getUserInfoByHunterId(hunterId);
-        hunterInfo.setPhone(user.getPhone());
-        //TODO 补全信息
-//        hunterInfo.setName(user.getName());
-        hunterInfo.setTxUrl("http://47.93.200.190/images/default.png");
-
-        String userTx = userInfoResouce.getUserTx(hunter.getUserid());
-        if(!StringUtils.isEmpty(userTx)){
-            hunterInfo.setTxUrl(userTx);
-        }
-
-        return hunterInfo;
-    }
     @Override
     public SearchTaskInfoListResVo searchTask(SearchTaskReqVo searchTaskReqVo) {
         String schoolName = searchTaskReqVo.getSchoolName();
@@ -406,17 +386,17 @@ public class TaskOperateServiceImpl implements TaskOperateService {
             String taskid = taskInfoVo.getTaskId();
             List<XslTag> taskTags = tagService.getTaskTags(taskid);
 
-            List<tagVo> tagVos = new ArrayList<>();
+            List<XslTagVo> XslTagVos = new ArrayList<>();
             if(ListUtil.isNotEmpty(taskTags)){
                 for (XslTag xslTag : taskTags){
-                    tagVo tagVo = new tagVo();
-                    tagVo.setTagName(xslTag.getName());
-                    tagVo.setTagid(xslTag.getTagid());
-                    tagVos.add(tagVo);
+                    XslTagVo XslTagVo = new XslTagVo();
+                    XslTagVo.setTagName(xslTag.getName());
+                    XslTagVo.setTagid(xslTag.getTagid());
+                    XslTagVos.add(XslTagVo);
                 }
 
             }
-            List<TagVo> tags = GsonUtil.gsonToList(GsonUtil.gsonString(tagVos),TagVo.class);
+            List<TagVo> tags = GsonUtil.gsonToList(GsonUtil.gsonString(XslTagVos),TagVo.class);
             taskInfo.setTags(tags);
             taskInfos.add(taskInfo);
         }
@@ -608,42 +588,11 @@ public class TaskOperateServiceImpl implements TaskOperateService {
     }
 
     private void sendTaskInfoToSearch(XslTask xslTask) {
-        TaskInfo taskInfoVo = initTaskInfo(xslTask);
+        TaskInfo taskInfoVo = commonUseService.initTaskInfo(xslTask);
         TaskEsInfo taskEsInfo = new TaskEsInfo();
         BeanUtils.copyProperties(taskInfoVo, taskEsInfo);
         logger.info("sendTaskInfoToSearch:"+ GsonSingle.getGson().toJson(taskEsInfo));
         taskMqService.addEsTask(taskEsInfo);
-    }
-
-    private TaskInfo initTaskInfo(XslTask xslTask) {
-        TaskInfo taskInfoVo = new TaskInfo();
-        String masterId = xslTask.getSendid();
-        MasterVo masterInfo = userInfoResouce.getMasterInfo(masterId);
-        UserVo userInfo = userInfoResouce.getUserInfoMasterId(masterId);
-
-        //获取任务标签
-        String taskid = xslTask.getTaskid();
-        List taskTags = tagService.getTaskTags(taskid);
-
-        BeanUtils.copyProperties(xslTask, taskInfoVo);
-        BeanUtils.copyProperties(masterInfo, taskInfoVo);
-        taskInfoVo.setMasterlevel(masterInfo.getLevel());
-        BeanUtils.copyProperties(userInfo, taskInfoVo);
-        taskInfoVo.setTaskId(xslTask.getTaskid());
-        taskInfoVo.setTaskTitle(xslTask.getTasktitle());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        taskInfoVo.setCreateDate(sdf.format(xslTask.getCreatedate()));
-        taskInfoVo.setTxUrl("http://47.93.200.190/images/default.png");
-        String userTx = userInfoResouce.getUserTx(masterInfo.getUserid());
-        if(!StringUtils.isEmpty(userTx)){
-            taskInfoVo.setTxUrl(userTx);
-        }
-        taskInfoVo.setMasterlevel(masterInfo.getLevel());
-        taskInfoVo.setMasterId(xslTask.getSendid());
-        taskInfoVo.setDeadLineDate(sdf.format(xslTask.getDeadline()));
-        taskInfoVo.setUpdatedate(sdf.format(xslTask.getUpdatedate()));
-        taskInfoVo.setTags(taskTags);
-        return taskInfoVo;
     }
 
 

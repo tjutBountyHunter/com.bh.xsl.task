@@ -9,17 +9,16 @@ import java.util.List;
  */
 public class TaskListResVo extends ResBaseVo{
 
-    private List<Task> taskList;
+    private List<SendRecTaskVo> sendRecTaskVoList;
 
     public TaskListResVo() {
     }
 
-    public List<Task> getTaskList() {
-        return this.taskList;
+    public List<SendRecTaskVo> getSendRecTaskVoList() {
+        return sendRecTaskVoList;
     }
 
-    public void setTaskList(List<Task> taskList) {
-        this.taskList = taskList;
+    public void setSendRecTaskVoList(List<SendRecTaskVo> sendRecTaskVoList) {
+        this.sendRecTaskVoList = sendRecTaskVoList;
     }
-
 }

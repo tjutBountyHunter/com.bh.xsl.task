@@ -1,9 +1,14 @@
 package com.xsl.task.vo;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
-public class Task implements Serializable {
+/**
+ * @author 梁俊伟
+ * @version 1.0
+ * @date 2019/7/14 15:27
+ */
+public class SendRecTaskVo implements Serializable {
     private Integer id;
 
     private Integer cid;
@@ -20,11 +25,11 @@ public class Task implements Serializable {
 
     private Byte state;
 
-    private Date createdate;
+    private String createdate;
 
-    private Date updatedate;
+    private String updatedate;
 
-    private Date deadline;
+    private String deadline;
 
     private String sourcetype;
 
@@ -92,27 +97,27 @@ public class Task implements Serializable {
         this.state = state;
     }
 
-    public Date getCreatedate() {
+    public String getCreatedate() {
         return createdate;
     }
 
-    public void setCreatedate(Date createdate) {
+    public void setCreatedate(String createdate) {
         this.createdate = createdate;
     }
 
-    public Date getUpdatedate() {
+    public String getUpdatedate() {
         return updatedate;
     }
 
-    public void setUpdatedate(Date updatedate) {
+    public void setUpdatedate(String updatedate) {
         this.updatedate = updatedate;
     }
 
-    public Date getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
 
@@ -121,6 +126,6 @@ public class Task implements Serializable {
     }
 
     public void setSourcetype(String sourcetype) {
-        this.sourcetype = sourcetype == null ? null : sourcetype.trim();
+        this.sourcetype = sourcetype;
     }
 }

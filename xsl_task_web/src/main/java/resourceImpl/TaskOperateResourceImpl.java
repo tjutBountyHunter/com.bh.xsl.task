@@ -53,7 +53,7 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 	}
 
 	@Override
-	public ResBaseVo calcelTaskDDL() {
+	public ResBaseVo cancelTaskDDL() {
 		try {
 			return cancelTaskService.cancelTaskDDL();
 		} catch (Exception e) {

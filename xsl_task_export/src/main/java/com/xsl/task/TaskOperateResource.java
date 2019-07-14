@@ -36,7 +36,7 @@ public interface TaskOperateResource {
 	 * 取消超时任务
 	 * @return
 	 */
-	ResBaseVo calcelTaskDDL();
+	ResBaseVo cancelTaskDDL();
 
 	/**
 	 * 取消任务
