@@ -13,12 +13,33 @@ public interface ErpTaskInfoResource {
 	 */
 	PageObject selectTaskAll(ErpTaskInfoReqVo erpTaskInfoReqVo);
 
+	/**
+	 * 任务的插入
+	 * 只有状态为4和0（未审核、待接收）的时候才被创建
+	 * @param xslTasks
+	 * @return
+	 */
 	boolean insertXslTask(List<Task> xslTasks);
 
+	/**
+	 * 任务的更新
+	 * @param xslTasks
+	 * @return
+	 */
 	boolean updateXslTask(List<Task> xslTasks);
 
+	/**
+	 * 任务的删除
+	 * ①任务逻辑删除 -1：冻结
+	 * @return
+	 */
 	boolean deleteXslTask(List<Task> xslTasks);
 
+	/**
+	 * 单任务删除
+	 * @param task
+	 * @return
+	 */
 	boolean delXslTask(Task task);
 
 

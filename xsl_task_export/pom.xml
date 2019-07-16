@@ -10,8 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xsl_task_export</artifactId>
-
-
 </project>
 
         <!--发包时更换为该配置-->

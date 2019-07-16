@@ -6,18 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.CancelTask;
+import service.CancelTaskService;
 import util.ListUtil;
 import com.xsl.task.vo.ResBaseVo;
-import xsl.pojo.XslTask;
 import xsl.pojo.XslTaskExample;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 @Service
-public class CancelTaskImpl implements CancelTask {
-    private static final Logger log =  LoggerFactory.getLogger(CancelTaskImpl.class);
+public class CancelTaskServiceImpl implements CancelTaskService {
+    private static final Logger log =  LoggerFactory.getLogger(CancelTaskServiceImpl.class);
     @Autowired
     private XslTaskMapper xslTaskMapper;
     @Autowired

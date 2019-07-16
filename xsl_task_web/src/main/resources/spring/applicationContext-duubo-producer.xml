@@ -26,6 +26,8 @@
 
     <bean id="OrderInfoResource" class="resourceImpl.OrderInfoResourceImpl"/>
     <dubbo:service interface="com.xsl.task.OrderInfoResource" ref="OrderInfoResource" timeout="600000"/>
-    
+
+    <bean id="tagResource" class="resourceImpl.TagResourceImpl"/>
+    <dubbo:service interface="com.xsl.task.TagResource" ref="tagResource" timeout="600000"/>
 
 </beans>

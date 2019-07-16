@@ -80,9 +80,14 @@
             <dependency>
                 <groupId>com.bh.xsl.user</groupId>
                 <artifactId>xsl-user-export</artifactId>
-                <version>1.2.3</version>
+                <version>1.3.4</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.bh.xsl.search</groupId>
+                <artifactId>xsl-search-export</artifactId>
+                <version>1.2</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.google.code.gson</groupId>

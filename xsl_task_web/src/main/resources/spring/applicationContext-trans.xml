@@ -13,7 +13,7 @@
     <!-- 切面 -->
     <aop:config>
         <aop:advisor advice-ref="transactionAdvice"
-                     pointcut="execution(* com.xsl.user.service..*(..))" />
+                     pointcut="execution(* service..*(..))" />
     </aop:config>
 
     <tx:advice id="transactionAdvice" transaction-manager="transactionManager">

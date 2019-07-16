@@ -1,6 +1,6 @@
 package mapper;
 
-import com.xsl.task.vo.SendAndRecTaskReqVo;
+import vo.SendAndRecTaskReqVo;
 import org.apache.ibatis.annotations.Param;
 import xsl.pojo.XslHunterTask;
 import xsl.pojo.XslHunterTaskExample;

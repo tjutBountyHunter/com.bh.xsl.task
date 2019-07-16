@@ -1,6 +1,6 @@
 package service;
 
-public interface searchTaskMQ {
+public interface SearchTaskMQ {
     void addTaskJson(String json);
 
     void deleteTaskJson(String json);

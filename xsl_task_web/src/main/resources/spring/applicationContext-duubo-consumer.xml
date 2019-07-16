@@ -17,5 +17,9 @@
 
     <dubbo:reference id="jpushResource" check="true" interface="com.xsl.user.JpushResource" />
 
+    <dubbo:reference id="levelResource" check="true" interface="com.xsl.user.LevelResource"/>
+
+    <dubbo:reference id="searchResource" check="true" interface="com.xsl.search.export.SearchResource"/>
+
 
 </beans>

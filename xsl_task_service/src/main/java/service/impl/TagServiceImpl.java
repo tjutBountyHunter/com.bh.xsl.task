@@ -1,64 +1,76 @@
 package service.impl;
 
-import mapper.*;
+import com.google.gson.Gson;
+import com.xsl.task.vo.TagReqVo;
+import com.xsl.task.vo.TagResVo;
+import com.xsl.task.vo.TagVo;
+import mapper.XslTagMapper;
+import mapper.XslTaskTagMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import service.TagService;
 import util.GsonSingle;
-import com.xsl.task.vo.TagReqVo;
-import com.xsl.task.vo.tagVo;
-import xsl.pojo.XslResult;
+import util.JedisClientUtil;
+import util.ListUtil;
 import xsl.pojo.XslTag;
 import xsl.pojo.XslTagExample;
+import xsl.pojo.XslTaskTagExample;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TagServiceImpl implements TagService {
-	@Autowired
-	private XslTagMapper xslTagMapper;
 
 	private static final Logger logger = LoggerFactory.getLogger(TagServiceImpl.class);
 
+	@Autowired
+	private XslTaskTagMapper xslTaskTagMapper;
+	@Autowired
+	private XslTagMapper xslTagMapper;
+
+	@Value("${TASK_TAG_INFO}")
+	private String TASK_TAG_INFO;
+
 
 	@Override
-	public XslResult createTags(TagReqVo tagReqVo) {
+	public TagResVo createTags(TagReqVo tagReqVo) {
 		String tagName = tagReqVo.getTagName();
-
+		TagResVo tagResVo = new TagResVo();
+		tagResVo.setStatus(200);
+		tagResVo.setMsg("创建标签成功");
 		if(StringUtils.isEmpty(tagName)){
-			return XslResult.build(400, "参数错误");
+			tagResVo.setStatus(400);
+			tagResVo.setMsg("参数错误");
+			return tagResVo;
 		}
 
 		try {
-				XslTagExample xslTagExample = new XslTagExample();
-				XslTagExample.Criteria criteria = xslTagExample.createCriteria();
-				criteria.andNameEqualTo(tagName);
-				List<XslTag> list = xslTagMapper.selectByExample(xslTagExample);
-				if(list != null && list.size()>0){
-					return XslResult.build(200, "标签创建成功");
-				}
+			XslTagExample xslTagExample = new XslTagExample();
+			XslTagExample.Criteria criteria = xslTagExample.createCriteria();
+			criteria.andNameEqualTo(tagName);
+			List<XslTag> list = xslTagMapper.selectByExample(xslTagExample);
+			if(list != null && list.size()>0){
+				return tagResVo;
+			}
 
-				XslTag xslTag = new XslTag();
-				xslTag.setTagid(UUID.randomUUID().toString().substring(0,6));
-				xslTag.setName(tagName);
-				xslTag.setCreatedate(new Date());
-				xslTagMapper.insertSelective(xslTag);
-
-			return XslResult.ok(xslTag.getTagid());
+			XslTag xslTag = new XslTag();
+			xslTag.setTagid(UUID.randomUUID().toString().substring(0,6));
+			xslTag.setName(tagName);
+			xslTag.setCreatedate(new Date());
+			xslTagMapper.insertSelective(xslTag);
+			tagResVo.setTagid(xslTag.getTagid());
+			return tagResVo;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return XslResult.build(500, "服务器异常");
+			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public XslResult queryTag(TagReqVo tagReqVo) {
+	public List<TagVo> queryTag(TagReqVo tagReqVo) {
 		Integer tagNum = tagReqVo.getTagNum();
 		List<String> obtainedTags = tagReqVo.getObtainedTags();
 		XslTagExample xslTagExample = new XslTagExample();
@@ -69,15 +81,43 @@ public class TagServiceImpl implements TagService {
 		}
 
 		List<XslTag> list = xslTagMapper.selectByExampleLimit(xslTagExample, tagNum);
-		List<tagVo> tagVos = new ArrayList<>();
+		List<TagVo> tagVos = new ArrayList<>();
 		for (XslTag xslTag : list){
-			tagVo tagVo = new tagVo();
+			TagVo tagVo = new TagVo();
 			tagVo.setTagid(xslTag.getTagid());
 			tagVo.setTagName(xslTag.getName());
 			tagVos.add(tagVo);
 		}
 
 		logger.info("queryTag.list msg:" + GsonSingle.getGson().toJson(tagVos));
-		return XslResult.ok(tagVos);
+		return tagVos;
+	}
+
+	@Override
+	public List<XslTag> getTaskTags(String taskId) {
+		Gson gson = GsonSingle.getGson();
+		if(StringUtils.isEmpty(taskId)){
+			return new ArrayList<>();
+		}
+
+		String schoolInfo = JedisClientUtil.get(TASK_TAG_INFO + ":" + taskId);
+
+		if(!StringUtils.isEmpty(schoolInfo)){
+			XslTag[] xslArray = gson.fromJson(schoolInfo, XslTag[].class);
+			List<XslTag> xslTags = Arrays.asList(xslArray);
+			return xslTags;
+		}
+
+		XslTaskTagExample xslTaskTagExample = new XslTaskTagExample();
+		xslTaskTagExample.createCriteria().andTaskidEqualTo(taskId);
+		List<String> tagIds = xslTaskTagMapper.selectTagIdByExample(xslTaskTagExample);
+		XslTagExample xslTagExample = new XslTagExample();
+		xslTagExample.createCriteria().andTagidIn(tagIds);
+		List<XslTag> xslTags = xslTagMapper.selectByExample(xslTagExample);
+		if(ListUtil.isNotEmpty(xslTags)){
+			JedisClientUtil.setEx(TASK_TAG_INFO + ":" + taskId, gson.toJson(xslTags), 300);
+		}
+
+		return xslTags;
 	}
 }

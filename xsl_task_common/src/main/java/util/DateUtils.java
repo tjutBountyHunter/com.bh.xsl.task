@@ -21,6 +21,23 @@ public class DateUtils {
         return sdf.format(date);
     }
 
+    /**
+     * 将string类型的时间转化为Date类型的
+     * @param stringDate
+     * @return
+     */
+    public static Date stringToDate(String stringDate){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = sdf.parse(stringDate);
+            return date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public static String dateTimeToString(String dateTime){
         /**
          *

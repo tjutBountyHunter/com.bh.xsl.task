@@ -2,7 +2,7 @@ package vo;
 
 import java.io.Serializable;
 
-public class tagVo implements Serializable {
+public class XslTagVo implements Serializable {
 	private String tagName;
 	private String tagid;
 

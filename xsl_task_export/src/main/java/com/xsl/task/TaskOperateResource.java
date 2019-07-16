@@ -25,11 +25,24 @@ public interface TaskOperateResource {
 	 */
 	ResBaseVo confirmTask(ConfirmTaskReqVo confirmTaskReqVo);
 
+	/**
+	 * 任务搜索
+	 * @param searchTaskReqVo
+	 * @return
+	 */
+	SearchTaskInfoListResVo searchTask(SearchTaskReqVo searchTaskReqVo);
 
 	/**
 	 * 取消超时任务
 	 * @return
 	 */
-	ResBaseVo calcelTaskDDL();
+	ResBaseVo cancelTaskDDL();
+
+	/**
+	 * 取消任务
+	 * @param taskId
+	 * @return
+	 */
+	ResBaseVo cancelTask(String taskId);
 
 }

@@ -1,8 +1,9 @@
 package com.xsl.task.vo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TagReqVo {
+public class TagReqVo implements Serializable {
 	private Integer tagNum;
 	private List<String> obtainedTags;
 	private String tagName;
