@@ -1,4 +1,4 @@
-package vo;
+package com.xsl.task.vo;
 
 public class RecTaskReqVo  extends ReqBaseVo{
 	private String taskId;

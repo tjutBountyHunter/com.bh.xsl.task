@@ -1,20 +1,19 @@
 package service.impl;
 
-import example.XslTagExample;
 import mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import pojo.XslTag;
 import service.TagService;
 import util.GsonSingle;
-import util.XslResult;
-import vo.TagReqVo;
-import vo.tagVo;
+import com.xsl.task.vo.TagReqVo;
+import com.xsl.task.vo.tagVo;
+import xsl.pojo.XslResult;
+import xsl.pojo.XslTag;
+import xsl.pojo.XslTagExample;
 
-import javax.enterprise.inject.New;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

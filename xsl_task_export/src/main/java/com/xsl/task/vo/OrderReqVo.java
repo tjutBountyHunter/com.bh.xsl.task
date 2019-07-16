@@ -1,4 +1,4 @@
-package vo;
+package com.xsl.task.vo;
 
 public class OrderReqVo extends ReqBaseVo{
    private int page;

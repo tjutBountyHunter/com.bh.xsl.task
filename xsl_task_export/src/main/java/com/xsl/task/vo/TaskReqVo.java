@@ -1,4 +1,4 @@
-package vo;
+package com.xsl.task.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +9,7 @@ public class TaskReqVo extends ReqBaseVo{
 	private String taskTitle;
 	private String content;
 	private List<ImageVo> images;
-	private List<TagVo> tags;
+	private List<tagVo> tags;
 	private Boolean isRecommend;
 	private String masterId;
 	private BigDecimal money;
@@ -56,11 +56,11 @@ public class TaskReqVo extends ReqBaseVo{
 		this.images = images;
 	}
 
-	public List<TagVo> getTags() {
+	public List<tagVo> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<TagVo> tags) {
+	public void setTags(List<tagVo> tags) {
 		this.tags = tags;
 	}
 

@@ -1,4 +1,4 @@
-package com.xsl.task.vo;
+package vo;
 
 public class JPushVo {
 	/**

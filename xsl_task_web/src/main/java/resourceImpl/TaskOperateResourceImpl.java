@@ -1,5 +1,6 @@
 package resourceImpl;
 
+import com.xsl.task.TaskOperateResource;
 import com.xsl.user.JpushResource;
 import com.xsl.user.UserInfoResouce;
 import mapper.*;
@@ -8,14 +9,17 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import resource.TaskOperateResource;
 import service.CancelTask;
 import service.HunterRecommend;
 import service.impl.searchTaskMQImpl;
 import service.searchTaskMQ;
 import util.*;
-import vo.*;
-import vo.ResBaseVo;
+import com.xsl.task.vo.*;
+import com.xsl.task.vo.ResBaseVo;
+import vo.JPushReqVo;
+import vo.SchoolVo;
+import vo.SchoolinfoVo;
+import vo.UserVo;
 import xsl.pojo.*;
 import xsl.pojo.XslUser;
 
@@ -358,14 +362,14 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 	 */
 	private ResBaseVo addTaskTag(TaskReqVo taskReqVo, String taskId) {
 		try {
-			List<TagVo> tags = taskReqVo.getTags();
+			List<tagVo> tags = taskReqVo.getTags();
 
 			if(tags.size() < 1){
 				return ResBaseVo.ok();
 			}
 
 			List<XslTaskTag> xslTaskTags = new ArrayList<>();
-			for (TagVo tagVo : tags){
+			for (com.xsl.task.vo.tagVo tagVo : tags){
 				XslTaskTag xslTaskTag = new XslTaskTag();
 				xslTaskTag.setTaskid(taskId);
 				xslTaskTag.setTagid(tagVo.getTagid());
@@ -388,9 +392,9 @@ public class TaskOperateResourceImpl implements TaskOperateResource {
 		return ResBaseVo.ok();
 	}
 
-	private ResBaseVo updateTagNum(List<TagVo> tags){
+	private ResBaseVo updateTagNum(List<tagVo> tags){
 		List<String> tagIds = new ArrayList<>(tags.size());
-		for (TagVo tagVo : tags){
+		for (com.xsl.task.vo.tagVo tagVo : tags){
 			tagIds.add(tagVo.getTagid());
 		}
 

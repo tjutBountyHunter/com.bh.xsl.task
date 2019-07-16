@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.CancelTask;
 import util.ListUtil;
-import vo.ResBaseVo;
+import com.xsl.task.vo.ResBaseVo;
 import xsl.pojo.XslTask;
 import xsl.pojo.XslTaskExample;
 

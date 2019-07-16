@@ -1,7 +1,7 @@
 package mapper;
 
 import org.apache.ibatis.annotations.Select;
-import pojo.XslTask;
+import xsl.pojo.XslTask;
 
 import java.util.List;
 

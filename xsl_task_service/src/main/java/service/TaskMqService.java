@@ -1,10 +1,8 @@
 package service;
 
-import pojo.XslTask;
+import com.xsl.task.vo.TaskEsInfo;
+import com.xsl.task.vo.UpdateTaskVo;
 import vo.CreateOrderReqVo;
-import vo.TaskEsInfo;
-import vo.TaskInfo;
-import vo.UpdateTaskVo;
 
 public interface TaskMqService {
 

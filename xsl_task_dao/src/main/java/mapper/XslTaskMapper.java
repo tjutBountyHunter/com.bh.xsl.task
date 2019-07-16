@@ -1,7 +1,7 @@
 package mapper;
 
+import com.xsl.task.vo.SendAndRecTaskReqVo;
 import org.apache.ibatis.annotations.Param;
-import vo.SendAndRecTaskReqVo;
 import xsl.pojo.XslTask;
 import xsl.pojo.XslTaskExample;
 

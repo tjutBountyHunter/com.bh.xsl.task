@@ -1,4 +1,4 @@
-package vo;
+package com.xsl.task.vo;
 
 public class TaskInfoListReqVo extends ReqBaseVo{
 	private String userid;

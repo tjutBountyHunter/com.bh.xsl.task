@@ -2,6 +2,7 @@ package resourceImpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xsl.task.ErpTaskInfoResource;
 import com.xsl.user.UserInfoResouce;
 import mapper.XslTaskMapper;
 import mapper.XslTaskTagMapper;
@@ -9,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
-import resource.ErpTaskInfoResource;
 import util.DateUtils;
-import vo.*;
+import com.xsl.task.vo.*;
+import vo.UserVo;
 import xsl.pojo.*;
 
 import javax.annotation.Resource;

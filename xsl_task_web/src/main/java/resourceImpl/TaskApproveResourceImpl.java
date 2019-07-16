@@ -1,16 +1,16 @@
 package resourceImpl;
 
+import com.xsl.task.ErpTaskInfoResource;
+import com.xsl.task.TaskApproveResource;
 import mapper.XslTaskMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import resource.ErpTaskInfoResource;
-import resource.TaskApproveResource;
-import vo.ErpTaskInfoReqVo;
-import vo.PageObject;
-import vo.Task;
+import com.xsl.task.vo.ErpTaskInfoReqVo;
+import com.xsl.task.vo.PageObject;
+import com.xsl.task.vo.Task;
 import xsl.pojo.XslTask;
 
 import javax.annotation.Resource;
