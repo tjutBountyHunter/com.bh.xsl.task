@@ -7,6 +7,7 @@ import com.xsl.search.export.vo.TaskSearchReqVo;
 import com.xsl.task.vo.*;
 import com.xsl.task.vo.ResBaseVo;
 import com.xsl.task.vo.TagVo;
+import com.xsl.user.JpushResource;
 import com.xsl.user.LevelResource;
 import com.xsl.user.UserInfoResouce;
 import com.xsl.user.vo.*;
@@ -64,10 +65,11 @@ public class TaskOperateServiceImpl implements TaskOperateService {
     @Resource
     private UserInfoResouce userInfoResouce;
 
+    @Resource
+    private JpushResource jpushResource;
+
     @Autowired
     private HunterRecommendService hunterRecommendService;
-    @Autowired
-    private JpushService jpushService;
     @Autowired
     private TagService tagService;
     @Autowired
@@ -628,14 +630,10 @@ public class TaskOperateServiceImpl implements TaskOperateService {
     }
 
     private void sendToMessage(JPushVo jPushVo, String phone){
-        //获取设备码
-        String s = JedisClientUtil.get(REDIS_USER_SESSION_KEY + ":" + phone);
-        jPushVo.setRegistrationId(s);
-        if(StringUtils.isEmpty(s)){
-            return;
-        }
-        //TODO 修改极光推送
-        //发推送
-        jpushService.sendToRegistrationId(jPushVo,phone);
+        JPushReqVo jPushReqVo = new JPushReqVo();
+        BeanUtils.copyProperties(jPushVo,jPushReqVo);
+        jPushReqVo.setPhone(phone);
+        jPushReqVo.setSource("XSL");
+        jpushResource.sendByPhone(jPushReqVo);
     }
 }
