@@ -20,7 +20,6 @@
 
     <bean id="taskApproveResource" class="resourceImpl.TaskApproveResourceImpl"/>
     <dubbo:service interface="com.xsl.task.TaskApproveResource" ref="taskApproveResource" timeout="600000"/>
-
     <bean id="taskOperateResource" class="resourceImpl.TaskOperateResourceImpl"/>
     <dubbo:service interface="com.xsl.task.TaskOperateResource" ref="taskOperateResource" timeout="600000"/>
 

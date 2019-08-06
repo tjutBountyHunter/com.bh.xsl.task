@@ -13,7 +13,7 @@
 
     <dubbo:reference id="userResource" check="true" interface="com.xsl.user.UserResource"/>
 
-    <dubbo:reference id="userInfoResource" check="true" interface="com.xsl.user.UserInfoResouce"/>
+    <dubbo:reference id="userInfoResouce" check="true" interface="com.xsl.user.UserInfoResouce"/>
 
     <dubbo:reference id="jpushResource" check="true" interface="com.xsl.user.JpushResource" />
 

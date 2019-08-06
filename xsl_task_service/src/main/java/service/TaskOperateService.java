@@ -25,7 +25,7 @@ public interface TaskOperateService {
 
 
     /**
-     * 确认任务完成
+     * 猎人确认任务完成
      * @return
      */
     ResBaseVo confirmTask(ConfirmTaskReqVo confirmTaskReqVo);

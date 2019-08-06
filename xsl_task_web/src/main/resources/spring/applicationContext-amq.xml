@@ -18,10 +18,8 @@
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <!-- 这个connectionFactory对应的是我们定义的Spring提供的那个ConnectionFactory对象 -->
         <property name="connectionFactory" ref="connectionFactory" />
-        <property name="receiveTimeout" value="10000" />
-        <!-- true是topic，false是queue，默认是false，此处显示写出false -->
-        <property name="pubSubDomain" value="true" />
     </bean>
+
 
     <!--**************生产者队列配置********************-->
 
@@ -44,4 +42,5 @@
     <bean id="updateNetwork" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg value="updateNetwork" />
     </bean>
+
 </beans>
