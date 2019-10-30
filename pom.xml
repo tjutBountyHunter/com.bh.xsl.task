@@ -104,7 +104,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.6.Final</version>
+                <version>4.1.42.Final</version>
                 <scope>compile</scope>
             </dependency>
             <!--极光推送-->
@@ -347,7 +347,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.32.Final</version>
+                <version>4.1.42.Final</version>
             </dependency>
 
             <!--mq相关-->
